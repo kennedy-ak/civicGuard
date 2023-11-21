@@ -19,5 +19,7 @@ urlpatterns = [
     path('citizen/logout',views.citizen_logout,name="citizen-logout"),
     path('citizen-index',views.citizen_homepage,name='home-page'),
 
+    path("em",views.hello)
+
 
 ]
