@@ -23,7 +23,7 @@ class Policeprofile(models.Model):
 
 class CitizenProfile(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-
+    username = models.CharField(max_length=30, null=True,blank=True)
     first_name= models.CharField(max_length=100,null=True,blank=True)
     last_name = models.CharField(max_length=50,null=True,blank=True)
     ghana_card_id = models.CharField(max_length=30,null=True,blank=True)
