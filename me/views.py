@@ -112,10 +112,12 @@ def citizen_landing(request):
     return render(request, 'me/citizen_landing.html')
 
 def citizen_register(request):
-    pass
+
+    return render(request, 'me/citizen_register.html')
+
 
 def citizen_login(request):
-    pass
+    return render(request, 'me/citizen_login.html')
 
 def citizen_setting(request):
     pass
