@@ -1,0 +1,26 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.user-profile-container {
+    text-align: center;
+}
+
+.user-image {
+    width: 150px; /* Adjust the size as needed */
+    height: 150px;
+    border-radius: 50%; /* Make it a circular image */
+    margin-bottom: 20px;
+}
+
+.user-name {
+    color: #007bff;
+    margin: 0;
+}

@@ -1,0 +1,37 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'me/style-login.css' %}">
+    <title>Register</title>
+</head>
+<body>
+    <div class="registration-container">
+        <h1>Police Register</h1>
+
+        {% for message in messages %}
+            <h5 class='message'>{{ message }}</h5>
+        {% endfor %}
+
+        <form action="" method="POST">
+            {% csrf_token %}
+            <label for="username">Police Service Id:</label>
+            <input type="text" name="username" required>
+
+            <label for="password">Password:</label>
+            <input type="password" name="password" required>
+
+            <label for="password">Confirm Password:</label>
+            <input type="password" name="password2" required>
+
+            <button type="submit">Register</button>
+        </form>
+
+        <div class="login-link">
+            <p>Do you have an account? <a href="{% url 'police-login' %}">Login</a></p>
+        </div>
+    </div>
+</body>
+</html>
