@@ -16,6 +16,10 @@
     <div class="login-container">
         <h1>Citizen Login</h1>
 
+        
+        {% for message in messages %}
+            <h5 class='message'>{{ message }}</h5>
+        {% endfor %}
         <form method="POST" action="">
             {% csrf_token %}
             
@@ -27,7 +31,7 @@
 
             <button type="submit">Login</button>
             <div class="register-link">
-                <p > Not registered? <a href="{% url 'police-register' %}" class=""> Create a account </a></p>
+                <p > Not registered? <a href="{% url 'citizen-register' %}" class=""> Create a account </a></p>
             </div>
        
         </form>

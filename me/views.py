@@ -91,6 +91,7 @@ def police_setting(request):
             user_profile.first_name = first_name
             user_profile.last_name = last_name
             user_profile.rank = rank
+            
             user_profile.save()
 
             print("User profile saved successfully")  # Add this line for debugging
@@ -147,10 +148,23 @@ def citizen_register(request):
 
 
 def citizen_login(request):
-    return render(request, 'me/citizen_login.html')
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        
+        user = auth.authenticate(username=username, password=password)
+        if user is not None:
+            auth.login(request,user)
+            return redirect('home-page')
+        else:
+            messages.info(request, 'Credentials Invalid')
+            return redirect('citizen-login')
+    return render(request, 'me/citizen_login.html',)
 
 def citizen_setting(request):
-    citizen_profile = CitizenProfile.objects.get_or_create(user=request.user)
+    # user_profile, created = Policeprofile.objects.get_or_create(user=request.user)
+
+    citizen_profile ,created = CitizenProfile.objects.get_or_create(user=request.user)
     if request.method == "POST":
         form = CitizenCreationForm(request.POST, request.FILES)
         if form.is_valid():
@@ -159,13 +173,26 @@ def citizen_setting(request):
             ghana_card_id = form.cleaned_data['ghana_card_id']
             ghana_card_front_image = form.cleaned_data['ghana_card_image_front']
             ghana_card_back_image = form.cleaned_data['ghana_card_image_back']
-            drivers_id = form.cleaned_data['drivers_lenence_id']
-            drivers_linence_image = form.cleaned_data['drivers_Lience_image']
+            drivers_id = form.cleaned_data['drivers_license_id']
+            drivers_license_image = form.cleaned_data['drivers_license_image']
             post_address = form.cleaned_data['post_address']
             phone_number = form.cleaned_data['phone_number']
 
 
-            citizen_profile
+            citizen_profile.first_name = first_name
+            citizen_profile.last_name = last_name
+            citizen_profile.ghana_card_id = ghana_card_id
+            citizen_profile.ghana_card_image_front = ghana_card_front_image
+            citizen_profile.ghana_card_image_back = ghana_card_back_image
+            citizen_profile.drivers_license_id = drivers_id
+            citizen_profile.driver_license_Image_front = drivers_license_image
+            citizen_profile.postal_address = post_address
+            citizen_profile.phone_number = phone_number
+
+            citizen_profile.save()
+            
+            return redirect('home-page')
+
             
 
 
@@ -173,7 +200,11 @@ def citizen_setting(request):
 
 
 def citizen_logout(request):
-    pass
+    auth.logout(request)
 
+    return redirect('citizen-login')
 def citizen_homepage(request):
-    pass
+    user_profile = get_object_or_404(CitizenProfile, user=request.user)
+  
+
+    return render(request, 'me/index-citizen.html',{"user":user_profile})
