@@ -1,5 +1,5 @@
 
-{% load static%}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,9 +11,15 @@
 <body>
     <div class="user-profile-container">
         <img src="{{ user.image.url }}" alt="{{ user.first_name }}" class="user-image">
+        <h2 class="user-name">{{user.rank}}</h2>
         <h2 class="user-name">{{ user.first_name }}</h2>
-    </div>
+        <h2 class ="user-name">{{user.last_name}}</h2>
 
-    
+        <a href="{% url 'edit-police'%}"><button class="edit-button">Edit</button></a> 
+    </div>
 </body>
-</html> 
+</html>
+
+
+
+

@@ -1,37 +1,39 @@
-{%load static%}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'me/style-login.css' %}">
-    <title>Register</title>
-</head>
-<body>
-    <div class="registration-container">
-        <h1>Citizen Register</h1>
+{% extends "me/test.html" %}
+{% load static %}
 
-        {% for message in messages %}
-            <h5 class='message'>{{ message }}</h5>
-        {% endfor %}
+{% block title %}
 
-        <form action="" method="POST">
-            {% csrf_token %}
-            <label for="username">Username:</label>
-            <input type="text" name="username" required>
+Register
+{% endblock title %}
 
-            <label for="password">Password:</label>
-            <input type="password" name="password" required>
+{% block css %}
+<link rel="stylesheet" href="{% static 'me/style-register.css' %}">
+{% endblock css %}
 
-            <label for="password">Confirm Password:</label>
-            <input type="password" name="password2" required>
+{% block content %}
+<div class="registration-container">
+    <h1>Citizen Register</h1>
 
-            <button type="submit">Register</button>
-        </form>
+    {% for message in messages %}
+        <h5 class='message'>{{ message }}</h5>
+    {% endfor %}
 
-        <div class="login-link">
-            <p>Do you have an account? <a href="{% url 'citizen-login' %}">Login</a></p>
-        </div>
+    <form action="" method="POST">
+        {% csrf_token %}
+        <label for="username">Username:</label>
+        <input type="text" name="username" required>
+
+        <label for="password">Password:</label>
+        <input type="password" name="password" required>
+
+        <label for="password">Confirm Password:</label>
+        <input type="password" name="password2" required>
+
+        <button type="submit">Register</button>
+    </form>
+
+    <div class="login-link">
+        <p>Do you have an account? <a href="{% url 'citizen-login' %}">Login</a></p>
     </div>
-</body>
-</html>
+</div>
+{% endblock content %}

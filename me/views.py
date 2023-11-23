@@ -11,7 +11,6 @@ from .forms import ProfileCreationForm, CitizenCreationForm
 def home(request):
     return render(request, 'me/index.html')
 
-
 def police_landing(request):
 
     return render(request, 'me/police_landing.html')
@@ -62,7 +61,6 @@ def police_login(request):
             return redirect('police-login')
     return render(request, 'me/police_login.html')
 
-
 def police_logout(request):
     auth.logout(request)
 
@@ -71,10 +69,8 @@ def police_logout(request):
 def index_police(request):
     user_profile = get_object_or_404(Policeprofile, user=request.user)
     # user_profile = Policeprofile.objects.get(user=request.user)
-    print(user_profile.service_id)
+
     return render(request, 'me/index_police.html',{"user":user_profile})
-
-
 
 def police_setting(request):
     user_profile, created = Policeprofile.objects.get_or_create(user=request.user)
@@ -101,6 +97,28 @@ def police_setting(request):
     print("Form is not valid or not a POST request")  # Add this line for debugging
     return render(request, 'me/police_setting.html', {'forms': ProfileCreationForm()})
 
+def edit_setting(request):
+
+    user_profile, created = Policeprofile.objects.get_or_create(user=request.user)
+    msg = ""
+    if request.method == "POST":
+        image = request.POST['image']
+        rank = request.POST['rank']
+        fist_name = request.POST['first']
+        last_name = request.POST['last']
+
+        user_profile.image=image
+        user_profile.rank
+        user_profile.first_name
+        user_profile.last_name
+        user_profile.save()
+        msg ="Information Saved"
+
+        return redirect('edit-police')
+
+
+
+    return render(request, 'me/edit_settings.html',{"user":user_profile,'msg':msg})
 
 
 
@@ -208,3 +226,8 @@ def citizen_homepage(request):
   
 
     return render(request, 'me/index-citizen.html',{"user":user_profile})
+
+
+
+def test(request):
+    return render(request, 'me/test.html')
