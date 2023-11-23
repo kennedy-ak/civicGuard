@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
 from .models import Policeprofile,CitizenProfile
-from .forms import ProfileCreationForm
+from .forms import ProfileCreationForm, CitizenCreationForm
 
 
 # Create your views here.
@@ -150,7 +150,27 @@ def citizen_login(request):
     return render(request, 'me/citizen_login.html')
 
 def citizen_setting(request):
-    pass
+    citizen_profile = CitizenProfile.objects.get_or_create(user=request.user)
+    if request.method == "POST":
+        form = CitizenCreationForm(request.POST, request.FILES)
+        if form.is_valid():
+            first_name = form.cleaned_data['first_name']
+            last_name = form.cleaned_data['last_name']
+            ghana_card_id = form.cleaned_data['ghana_card_id']
+            ghana_card_front_image = form.cleaned_data['ghana_card_image_front']
+            ghana_card_back_image = form.cleaned_data['ghana_card_image_back']
+            drivers_id = form.cleaned_data['drivers_lenence_id']
+            drivers_linence_image = form.cleaned_data['drivers_Lience_image']
+            post_address = form.cleaned_data['post_address']
+            phone_number = form.cleaned_data['phone_number']
+
+
+            citizen_profile
+            
+
+
+    return render(request,'me/citizen_setting.html',{'form':CitizenCreationForm()})
+
 
 def citizen_logout(request):
     pass
