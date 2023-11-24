@@ -1,21 +1,39 @@
- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Landing page</title>
-</head>
-<body>
-    <h1>Hello word</h1>
+{% extends "me/test.html" %}
+<!doctype html>
+{% block title %}
+landing Page
+{% endblock title %}
+    <title>landing Page</title>
 
-    <div>
 
-      <a href="{% url 'landing-police'%}"> <h1>Police </h1></a> 
+    {% block content %}
+    <div class="container mt-5">
+      <h1 class="display-4 text-center mb-4">Select the type of user you are:</h1>
 
-        <br>
-        
-      <a href="{% url 'citizen-landing'%}"><H1>Citizen</H1></a>  
-    </div>
-    
-</body>
-</html> 
+      <div class="row">
+          <div class="col-sm-6 mb-3 mb-sm-0">
+              <div class="card">
+                  <div class="card-body">
+                      <h5 class="card-title">This is the Portal for Police Officers</h5>
+                      <p class="card-text">Kindly Note that registering as a Police when you are not is Impersonation</p>
+                      <a href="{% url 'landing-police'%}" class="btn btn-primary">Police Officer</a>
+                  </div>
+              </div>
+          </div>
+          <div class="col-sm-6">
+              <div class="card">
+                  <div class="card-body">
+                      <h5 class="card-title">This is the Portal for Citizen Drivers</h5>
+                      <p class="card-text">Please Provide only accurate information.</p>
+                      <a href="{% url 'citizen-landing'%}" class="btn btn-primary">Citizen</a>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+
+    {% endblock content %}
+
+
+
+

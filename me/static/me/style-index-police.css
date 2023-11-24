@@ -5,22 +5,36 @@ body {
     padding: 0;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-end; /* Align to the right */
     height: 100vh;
 }
 
 .user-profile-container {
     text-align: center;
+    margin-right: 20px; /* Add margin for better spacing */
 }
 
 .user-image {
-    width: 150px; /* Adjust the size as needed */
+    width: 150px;
     height: 150px;
-    border-radius: 50%; /* Make it a circular image */
+    border-radius: 50%;
     margin-bottom: 20px;
 }
 
 .user-name {
     color: #007bff;
     margin: 0;
+}
+
+.edit-button {
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+}
+
+.edit-button:hover {
+    background-color: #0056b3;
 }

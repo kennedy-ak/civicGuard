@@ -1,0 +1,32 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block css %}
+    <link rel="stylesheet" href="{% static 'me/styles.css' %}">
+
+    {% endblock css %}
+
+    <title>
+        {% block title %}{% endblock title %}
+    </title>
+</head>
+<body>
+    <div class="navbar">
+        <a href="{% url 'main'%}"><button class="nav-button">Home</button></a>
+        <a href="{% url 'citizen-register'%}"><button class="nav-button">Citizen Register</button></a>
+        <a href="{% url 'citizen-login'%}"><button class="nav-button">Citizen Login</button></a>
+        <a href="{% url 'police-register'%}"><button class="nav-button">Police Register</button></a>
+        <a href="{% url 'police-login'%}"><button class="nav-button">Police Login</button></a>
+  
+        
+        
+        
+  
+    </div>
+
+    {% block content %}{% endblock content %}
+
+</body>
+</html>

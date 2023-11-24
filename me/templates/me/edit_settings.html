@@ -1,25 +1,20 @@
-{% extends "me/test.html" %}
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static "me/styles-setting.css" %}">
-    <title>Settings</title>
+    <title>Edit {{ user.service_id }}</title>
 </head>
 <body>
-    <h1>Mr please fill out the information</h1>
+    <h1>Edit Police Setting</h1>
+    {{ msg }}
     
-
     <form method="POST" action="" enctype="multipart/form-data">
-        {%csrf_token%}
-
-
-        {{form.as_p}}
+        {% csrf_token %}
+        {{ form.as_p }}
         <button type="submit">Save</button>
     </form>
-
-   
 </body>
-</html> 
+</html>
