@@ -1,6 +1,8 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
+from django.http import JsonResponse
+from django.db.models import Q
 from .models import Policeprofile,CitizenProfile
 from .forms import ProfileCreationForm, CitizenCreationForm
 
@@ -66,11 +68,42 @@ def police_logout(request):
 
     return redirect('police-login')
 
-def index_police(request):
-    user_profile = get_object_or_404(Policeprofile, user=request.user)
-    # user_profile = Policeprofile.objects.get(user=request.user)
+# def index_police(request):
+#     all_citizens = CitizenProfile.objects.all()
+#     user_profile = get_object_or_404(Policeprofile, user=request.user)
+#     # user_profile = Policeprofile.objects.get(user=request.user)
+#     if request.method == "POST":
+#         query = request.POST['q']
+#         for citizen in all_citizens:
+#             if isinstance(query,str) and isinstance(citizen,str) and query.lower() in citizen.lower():
+#                 return redirect('specific',name=citizen)
+            
 
-    return render(request, 'me/index_police.html',{"user":user_profile})
+
+#     return render(request, 'me/index_police.html',{"user":user_profile})
+
+def index_police(request):
+    # Assuming CitizenProfile has fields 'drivers_id' and 'ghanacard_id'
+    all_citizens = CitizenProfile.objects.all()
+    user_profile = get_object_or_404(Policeprofile, user=request.user)
+
+    if request.method == "POST":
+        query = request.POST.get('q', '')
+
+        # Case-insensitive search for citizens whose driver's ID or GhanaCard ID contains the query
+        matched_citizens = all_citizens.filter(drivers_license_id__icontains=query) | all_citizens.filter(ghana_card_id__icontains=query)
+        
+        if matched_citizens.exists():
+            # Redirect to the first matching citizen
+            return redirect('specific', identifier=matched_citizens.first().drivers_license_id)        
+        else:
+            # Handle the case where no matching citizens were found
+            messages.info(request,"User does does not exist")
+            return render(request, 'me/index_police.html', {"user": user_profile, "query": query})
+
+    return render(request, 'me/index_police.html', {"user": user_profile})
+
+
 
 def police_setting(request):
     user_profile, created = Policeprofile.objects.get_or_create(user=request.user)
@@ -96,6 +129,20 @@ def police_setting(request):
 
     print("Form is not valid or not a POST request")  # Add this line for debugging
     return render(request, 'me/police_setting.html', {'forms': ProfileCreationForm()})
+
+
+def specific(request, identifier):
+    # Assuming 'identifier' corresponds to the unique identifier (e.g., driver's ID or GhanaCard ID)
+    citizen_profiles = CitizenProfile.objects.filter(
+        Q(drivers_license_id=identifier) | Q(ghana_card_id=identifier)
+    )
+
+    # Choose one of the objects (e.g., the first one)
+    citizen_profile = citizen_profiles.first()
+
+    return render(request, "me/specific.html", {'user': citizen_profile, 'identifier': identifier})
+
+
 
 
 def edit_setting(request):

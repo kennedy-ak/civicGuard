@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% comment %} <link rel="stylesheet" href="{% static 'me/style-index-police.css' %}"> {% endcomment %}
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <title>Home</title>
 </head>
 <body>
@@ -17,15 +18,23 @@
 
         <a href="{% url 'edit-police'%}"><button class="edit-button">Edit</button></a> 
         <a href="{% url 'police-logout'%}"><button>Logout</button></a>
-
+    
+        {% for message in messages %}
+        <h5 class='message'>{{ message }}</h5>
+    {% endfor %}
 
     <div class="search-container">
-        <form action="/search/" method="GET">
-            <input type="text" name="search" placeholder="Search...">
+        <form action="" method="POST">
+            {% csrf_token %}
+            <input type="text" name="q" placeholder="Search...">
             <button type="submit">Search</button>
         </form>
     </div>
     </div>
+ 
+<a href=""><button>Log Complains</button></a>
+
+    </script>
 </body>
 </html>
 

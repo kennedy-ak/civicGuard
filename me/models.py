@@ -39,3 +39,16 @@ class CitizenProfile(models.Model):
         return f"{self.first_name}"
     
 
+class Complains(models.Model):
+    officer = models.ForeignKey(Policeprofile, on_delete=models.PROTECT)
+    citizen = models.ForeignKey(CitizenProfile, on_delete=models.PROTECT)
+    description = models.TextField()
+    region = models.CharField(max_length=30)
+    land_mark = models.CharField(max_length=50)
+    fine_paid = models.BooleanField(default=False)  # Default is False, indicating the fine is not paid
+    date_created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.date_created}"
+
+    
