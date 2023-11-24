@@ -5,14 +5,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'me/style-index-police.css' %}">
+    {% comment %} <link rel="stylesheet" href="{% static 'me/style-index-police.css' %}"> {% endcomment %}
     <title>Home</title>
 </head>
 <body>
     <div class="user-profile-container">
 
-        <h2 class="user-name">{{ user.first_name }}</h2>
+        <h2 class="user-name">Mr {{ user.first_name }}</h2>
+  
+  
+        <h2 class ="user-name">{{user.last_name}}</h2>
+
+        <h2 class ="user-name">{{user.postal_address}}</h2>
+
+
     </div>
+
+        <a href="{% url 'citizen-edit'%}"><button class="edit-button">Edit</button></a> 
+        <a href="{% url 'citizen-logout'%}"><button>Logout</button></a>
 
     
 </body>

@@ -233,7 +233,38 @@ def citizen_homepage(request):
 
     return render(request, 'me/index-citizen.html',{"user":user_profile})
 
+def edit_citizen_setting(request):
+    citizen_profile ,created = CitizenProfile.objects.get_or_create(user=request.user)
+    if request.method == "POST":
+        form = CitizenCreationForm(request.POST,request.FILES)
+        if form.is_valid():
+            citizen_profile.first_name = form.cleaned_data['first_name']
+            citizen_profile.last_name = form.cleaned_data['last_name']
+            citizen_profile.ghana_card_id = form.cleaned_data['ghana_card_id']
+            citizen_profile.ghana_card_image_front = form.cleaned_data['ghana_card_image_front']
+            citizen_profile.ghana_card_image_back = form.cleaned_data['ghana_card_image_back']
+            citizen_profile.drivers_license_id = form.cleaned_data['drivers_license_id']
+            citizen_profile.driver_license_Image_front = form.cleaned_data['drivers_license_image']
+            citizen_profile.postal_address = form.cleaned_data['post_address']
+            citizen_profile.phone_number = form.cleaned_data['phone_number']
+            citizen_profile.save()
+            return redirect('home-page')
+            
+    else:
+        form = CitizenCreationForm(initial={
+            'first_name':citizen_profile.first_name,
+            'last_name':citizen_profile.last_name,
+            'ghana_card_id' : citizen_profile.ghana_card_id,
+            'ghana_card_image_front': citizen_profile.ghana_card_image_front,
+            'ghana_card_image_back': citizen_profile.ghana_card_image_back,
+            'drivers_license_id': citizen_profile.drivers_license_id,
+            'drivers_license_image':citizen_profile.driver_license_Image_front,
+            'post_address': citizen_profile.postal_address,
+            'phone_number':citizen_profile.phone_number
 
+        })
+
+    return render(request,'me/edit_citizen_setting.html',{'form':form})
 
 def test(request):
     return render(request, 'me/test.html')
