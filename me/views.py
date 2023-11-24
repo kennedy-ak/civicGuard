@@ -126,11 +126,7 @@ def edit_setting(request):
     return render(request, 'me/edit_settings.html', {"user": user_profile, 'msg': msg, 'form': form})
 
 
-
-
-
 ############################################# Citizen Related Views RELATED VIEWS -##############################################################################################
-
 
 def citizen_landing(request):
 
