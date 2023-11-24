@@ -97,28 +97,34 @@ def police_setting(request):
     print("Form is not valid or not a POST request")  # Add this line for debugging
     return render(request, 'me/police_setting.html', {'forms': ProfileCreationForm()})
 
-def edit_setting(request):
 
+def edit_setting(request):
     user_profile, created = Policeprofile.objects.get_or_create(user=request.user)
     msg = ""
+
     if request.method == "POST":
-        image = request.POST['image']
-        rank = request.POST['rank']
-        fist_name = request.POST['first']
-        last_name = request.POST['last']
+        form = ProfileCreationForm(request.POST, request.FILES)
+        if form.is_valid():
+            user_profile.image = form.cleaned_data['image']
+            user_profile.rank = form.cleaned_data['rank']
+            user_profile.first_name = form.cleaned_data['first_name']
+            user_profile.last_name = form.cleaned_data['last_name']
+            user_profile.save()
+            msg = "Information Saved"
+            return redirect('landing')
+        else:
+            msg = "Form is not valid. Check for errors."
 
-        user_profile.image=image
-        user_profile.rank
-        user_profile.first_name
-        user_profile.last_name
-        user_profile.save()
-        msg ="Information Saved"
+    else:
+        form = ProfileCreationForm(initial={
+            'image': user_profile.image,
+            'rank': user_profile.rank,
+            'first_name': user_profile.first_name,
+            'last_name': user_profile.last_name,
+        })
 
-        return redirect('edit-police')
+    return render(request, 'me/edit_settings.html', {"user": user_profile, 'msg': msg, 'form': form})
 
-
-
-    return render(request, 'me/edit_settings.html',{"user":user_profile,'msg':msg})
 
 
 

@@ -5,17 +5,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'me/style-index-police.css' %}">
+    {% comment %} <link rel="stylesheet" href="{% static 'me/style-index-police.css' %}"> {% endcomment %}
     <title>Home</title>
 </head>
 <body>
     <div class="user-profile-container">
-        <img src="{{ user.image.url }}" alt="{{ user.first_name }}" class="user-image">
+         <img height="200" width="200" src="{{ user.image.url }}" alt="{{ user.first_name }}" class="user-image"> 
         <h2 class="user-name">{{user.rank}}</h2>
         <h2 class="user-name">{{ user.first_name }}</h2>
         <h2 class ="user-name">{{user.last_name}}</h2>
 
         <a href="{% url 'edit-police'%}"><button class="edit-button">Edit</button></a> 
+        <a href="{% url 'police-logout'%}"><button>Logout</button></a>
+
+
+    <div class="search-container">
+        <form action="/search/" method="GET">
+            <input type="text" name="search" placeholder="Search...">
+            <button type="submit">Search</button>
+        </form>
+    </div>
     </div>
 </body>
 </html>
