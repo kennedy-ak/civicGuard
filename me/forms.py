@@ -1,5 +1,5 @@
 from django import forms
-from .models import Policeprofile, CitizenProfile
+from .models import Policeprofile, CitizenProfile, Complains
 
 class ProfileCreationForm(forms.Form):
     image = forms.ImageField()
@@ -20,3 +20,15 @@ class CitizenCreationForm(forms.Form):
     phone_number = forms.CharField(label="Phone Number")
 
     
+
+
+
+class ComplainsForm(forms.ModelForm):
+    citizen = forms.CharField(label="Enter Citizens Drivers ID")
+    description = forms.CharField(label="Enter Offense")
+    class Meta:
+        model = Complains
+        fields = ['citizen','description', 'region', 'land_mark']
+
+    def __init__(self, *args, **kwargs):
+        super(ComplainsForm, self).__init__(*args, **kwargs)
