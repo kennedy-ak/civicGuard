@@ -40,8 +40,7 @@ class CitizenProfile(models.Model):
 
 class Complains(models.Model):
     officer = models.ForeignKey(Policeprofile, on_delete=models.PROTECT)
-    citizen = models.ForeignKey(CitizenProfile, on_delete=models.PROTECT)
-    description = models.TextField()
+    citizens = models.OneToOneField(CitizenProfile,null=True,blank=True, on_delete=models.PROTECT)
     region = models.CharField(max_length=30)
     land_mark = models.CharField(max_length=50)
     fine_paid = models.BooleanField(default=False)  # Default is False, indicating the fine is not paid

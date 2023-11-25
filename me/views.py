@@ -3,9 +3,10 @@ from django.contrib.auth.models import User, auth
 from django.contrib import messages
 from django.http import JsonResponse
 from django.http import Http404
+from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-from .models import Policeprofile,CitizenProfile
+from .models import Policeprofile,CitizenProfile,Complains
 from .forms import ProfileCreationForm, CitizenCreationForm, ComplainsForm
 
 
@@ -81,6 +82,7 @@ def police_logout(request):
     return redirect('police-login')
 
 @login_required(login_url='police-login')
+@csrf_protect
 def index_police(request):
     # Assuming CitizenProfile has fields 'drivers_id' and 'ghanacard_id'
     all_citizens = CitizenProfile.objects.all()
@@ -104,23 +106,88 @@ def index_police(request):
     return render(request, 'me/index_police.html', {"user": user_profile})
 
 @login_required(login_url='police-login')
+@csrf_protect
+# def log_complain(request):
+#     drivers_ids = CitizenProfile.objects.values_list('drivers_license_id', flat=True)
+#     # print(drivers_ids)
+#     if request.method == 'POST':
+#         form = ComplainsForm(request.POST)
+#         if form.is_valid():
+#             citizen_id = form.cleaned_data['citizen']
+#             print(citizen_id)
+            
+#             for id in drivers_ids:
+#                 if id == citizen_id:
+#                     desc = form.cleaned_data['description']
+#                     region = form.cleaned_data['region']
+#                     landmark = form.cleaned_data['land_mark']
+#                     police_profile = Policeprofile.objects.get(user=request.user)
+#                     # Complains.objects.create(officer=police_profile, citizens=citizen_id, region=region, land_mark=landmark)
+                    
+#                                 # Create a Complains instance without saving it yet
+#                     complain_instance = Complains(officer=police_profile, region=region, land_mark=landmark)
+#                     complain_instance.save()
+
+#             # Add the citizen_profile to the many-to-many relationship
+#                     complain_instance.citizens.set([citizen_profile])
+#                     return redirect('landing')
+#                 else:
+#                     messages.info(request, "Driver Id does not exist")
+#         else:
+#             form = ComplainsForm()
+#     else:
+#         form = ComplainsForm()
+
+#     return render(request, 'me/complains.html', {'form': form})
+
 def log_complain(request):
     drivers_ids = CitizenProfile.objects.values_list('drivers_license_id', flat=True)
+    
     if request.method == 'POST':
         form = ComplainsForm(request.POST)
         if form.is_valid():
+            citizen_id = form.cleaned_data['citizen']
             for ids in drivers_ids:
-                if drivers_ids == id:
-                    form.save()
-                else:
-                    messages.info(request,"Driver Id does not exit")
+                if ids == citizen_id:
 
-            # Save the form data to the database
-            
+
+                    desc = form.cleaned_data['description']
+                    region = form.cleaned_data['region']
+                    landmark = form.cleaned_data['landmark']
+                    police_profile = Policeprofile.objects.get(user=request.user)
+
+                    # Retrieve the corresponding CitizenProfile instance
+                    citizen_profile = CitizenProfile.objects.get(drivers_license_id=citizen_id)
+
+                    # Create a Complains instance without saving it yet
+                    Complains.objects.create(officer=police_profile,citizens=citizen_profile, region=region, land_mark=landmark)
+                
+
+  
+
+                    return redirect('landing')
+                else:
+                    messages.info(request, "Driver Id does not exist")
+        else:
+            form = ComplainsForm()
     else:
         form = ComplainsForm()
 
     return render(request, 'me/complains.html', {'form': form})
+
+def view_offense(request):
+    if request.user.is_authenticated:
+        police= Policeprofile.objects.get(user=request.user)
+        police_complains = Complains.objects.filter(officer=police)
+
+        return render(request,'me/view_complains.html',{'police_complains':police_complains})
+
+
+
+
+
+    return render(request,'me/view_complains.html',{'police':police_complains})
+    
 
 @login_required(login_url='police-login')
 def police_setting(request):
@@ -154,15 +221,16 @@ def police_setting(request):
 
 @login_required(login_url='police-login')
 def specific(request, identifier):
-    # Assuming 'identifier' corresponds to the unique identifier (e.g., driver's ID or GhanaCard ID)
-    citizen_profiles = CitizenProfile.objects.filter(
-        Q(drivers_license_id=identifier) | Q(ghana_card_id=identifier)
-    )
+    if request.user.is_authenticated:
+        # Assuming 'identifier' corresponds to the unique identifier (e.g., driver's ID or GhanaCard ID)
+        citizen_profiles = CitizenProfile.objects.filter(
+            Q(drivers_license_id=identifier) | Q(ghana_card_id=identifier)
+        )
 
-    # Choose one of the objects (e.g., the first one)
-    citizen_profile = citizen_profiles.first()
+        # Choose one of the objects (e.g., the first one)
+        citizen_profile = citizen_profiles.first()
 
-    return render(request, "me/specific.html", {'user': citizen_profile, 'identifier': identifier})
+        return render(request, "me/specific.html", {'user': citizen_profile, 'identifier': identifier})
 
 @login_required(login_url='police-login')
 def edit_setting(request):
@@ -322,11 +390,11 @@ def edit_citizen_setting(request):
         if form.is_valid():
             citizen_profile.first_name = form.cleaned_data['first_name']
             citizen_profile.last_name = form.cleaned_data['last_name']
-            citizen_profile.ghana_card_id = form.cleaned_data['ghana_card_id']
-            citizen_profile.ghana_card_image_front = form.cleaned_data['ghana_card_image_front']
-            citizen_profile.ghana_card_image_back = form.cleaned_data['ghana_card_image_back']
-            citizen_profile.drivers_license_id = form.cleaned_data['drivers_license_id']
-            citizen_profile.driver_license_Image_front = form.cleaned_data['drivers_license_image']
+            # citizen_profile.ghana_card_id = form.cleaned_data['ghana_card_id']
+            # citizen_profile.ghana_card_image_front = form.cleaned_data['ghana_card_image_front']
+            # citizen_profile.ghana_card_image_back = form.cleaned_data['ghana_card_image_back']
+            # citizen_profile.drivers_license_id = form.cleaned_data['drivers_license_id']
+            # citizen_profile.driver_license_Image_front = form.cleaned_data['drivers_license_image']
             citizen_profile.postal_address = form.cleaned_data['post_address']
             citizen_profile.phone_number = form.cleaned_data['phone_number']
             citizen_profile.save()
