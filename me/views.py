@@ -17,10 +17,6 @@ from .forms import ProfileCreationForm, CitizenCreationForm, ComplainsForm
 def home(request):
     return render(request, 'me/index.html')
 
-# def police_landing(request):
-
-#     return render(request, 'me/police_landing.html')
-
 def police_register(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -45,9 +41,7 @@ def police_register(request):
                 return redirect('police-settings')
         else:
             messages.info(request,'Password Not Matching')
-            return redirect('police-register')
-
-            
+            return redirect('police-register')            
 
     else:
         return render(request, 'me/police_register.html')
@@ -86,7 +80,7 @@ def police_logout(request):
 def index_police(request):
     # Assuming CitizenProfile has fields 'drivers_id' and 'ghanacard_id'
     all_citizens = CitizenProfile.objects.all()
-    # user_profile = Policeprofile.objects.get(user=request.user)
+
     user_profile = get_object_or_404(Policeprofile, user=request.user)
 
     if request.method == "POST":
@@ -106,93 +100,8 @@ def index_police(request):
     return render(request, 'me/index_police.html', {"user": user_profile})
 
 @login_required(login_url='police-login')
-@csrf_protect
-# def log_complain(request):
-#     drivers_ids = CitizenProfile.objects.values_list('drivers_license_id', flat=True)
-#     # print(drivers_ids)
-#     if request.method == 'POST':
-#         form = ComplainsForm(request.POST)
-#         if form.is_valid():
-#             citizen_id = form.cleaned_data['citizen']
-#             print(citizen_id)
-            
-#             for id in drivers_ids:
-#                 if id == citizen_id:
-#                     desc = form.cleaned_data['description']
-#                     region = form.cleaned_data['region']
-#                     landmark = form.cleaned_data['land_mark']
-#                     police_profile = Policeprofile.objects.get(user=request.user)
-#                     # Complains.objects.create(officer=police_profile, citizens=citizen_id, region=region, land_mark=landmark)
-                    
-#                                 # Create a Complains instance without saving it yet
-#                     complain_instance = Complains(officer=police_profile, region=region, land_mark=landmark)
-#                     complain_instance.save()
-
-#             # Add the citizen_profile to the many-to-many relationship
-#                     complain_instance.citizens.set([citizen_profile])
-#                     return redirect('landing')
-#                 else:
-#                     messages.info(request, "Driver Id does not exist")
-#         else:
-#             form = ComplainsForm()
-#     else:
-#         form = ComplainsForm()
-
-#     return render(request, 'me/complains.html', {'form': form})
-
-def log_complain(request):
-    drivers_ids = CitizenProfile.objects.values_list('drivers_license_id', flat=True)
-    
-    if request.method == 'POST':
-        form = ComplainsForm(request.POST)
-        if form.is_valid():
-            citizen_id = form.cleaned_data['citizen']
-            for ids in drivers_ids:
-                if ids == citizen_id:
-
-
-                    desc = form.cleaned_data['description']
-                    region = form.cleaned_data['region']
-                    landmark = form.cleaned_data['landmark']
-                    police_profile = Policeprofile.objects.get(user=request.user)
-
-                    # Retrieve the corresponding CitizenProfile instance
-                    citizen_profile = CitizenProfile.objects.get(drivers_license_id=citizen_id)
-
-                    # Create a Complains instance without saving it yet
-                    Complains.objects.create(officer=police_profile,citizens=citizen_profile, region=region, land_mark=landmark)
-                
-
-  
-
-                    return redirect('landing')
-                else:
-                    messages.info(request, "Driver Id does not exist")
-        else:
-            form = ComplainsForm()
-    else:
-        form = ComplainsForm()
-
-    return render(request, 'me/complains.html', {'form': form})
-
-def view_offense(request):
-    if request.user.is_authenticated:
-        police= Policeprofile.objects.get(user=request.user)
-        police_complains = Complains.objects.filter(officer=police)
-
-        return render(request,'me/view_complains.html',{'police_complains':police_complains})
-
-
-
-
-
-    return render(request,'me/view_complains.html',{'police':police_complains})
-    
-
-@login_required(login_url='police-login')
 def police_setting(request):
-    if request.user.is_authenticated:
-    
+    if request.user.is_authenticated: 
  
 
         user_profile, created = Policeprofile.objects.get_or_create(user=request.user)
@@ -218,19 +127,6 @@ def police_setting(request):
         return render(request, 'me/police_setting.html', {'forms': ProfileCreationForm()})
     else:
         return render(request, 'me/police_setting.html', {'forms': ProfileCreationForm()})
-
-@login_required(login_url='police-login')
-def specific(request, identifier):
-    if request.user.is_authenticated:
-        # Assuming 'identifier' corresponds to the unique identifier (e.g., driver's ID or GhanaCard ID)
-        citizen_profiles = CitizenProfile.objects.filter(
-            Q(drivers_license_id=identifier) | Q(ghana_card_id=identifier)
-        )
-
-        # Choose one of the objects (e.g., the first one)
-        citizen_profile = citizen_profiles.first()
-
-        return render(request, "me/specific.html", {'user': citizen_profile, 'identifier': identifier})
 
 @login_required(login_url='police-login')
 def edit_setting(request):
@@ -261,10 +157,6 @@ def edit_setting(request):
     return render(request, 'me/edit_settings.html', {"user": user_profile, 'msg': msg, 'form': form})
 
 ######################################################### Citizen Related Views RELATED VIEWS -##############################################################################################
-
-# def citizen_landing(request):
-
-    return render(request, 'me/citizen_landing.html')
 
 def citizen_register(request):
     if request.method == 'POST':
