@@ -15,6 +15,7 @@
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Save</button>
+        <a href="{{request.META.HTTP_REFERER}}"><Button>Cancel</Button></a>
     </form>
 </body>
 </html>
