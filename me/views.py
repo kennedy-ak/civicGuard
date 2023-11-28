@@ -129,7 +129,7 @@ def police_setting(request):
         return render(request, 'me/police_setting.html', {'forms': ProfileCreationForm()})
 
 @login_required(login_url='police-login')
-def edit_setting(request):
+def edit_police_setting(request):
     user_profile, created = Policeprofile.objects.get_or_create(user=request.user)
     msg = ""
 
@@ -154,7 +154,7 @@ def edit_setting(request):
             'last_name': user_profile.last_name,
         })
 
-    return render(request, 'me/edit_settings.html', {"user": user_profile, 'msg': msg, 'form': form})
+    return render(request, 'me/edit_police_settings.html', {"user": user_profile, 'msg': msg, 'form': form})
 
 ######################################################### Citizen Related Views RELATED VIEWS -##############################################################################################
 
