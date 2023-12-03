@@ -69,6 +69,8 @@ def police_login(request):
     return render(request, 'me/police_login.html')
 
 
+
+
 @login_required(login_url='police-login')
 def police_logout(request):
     auth.logout(request)
@@ -78,26 +80,29 @@ def police_logout(request):
 @login_required(login_url='police-login')
 @csrf_protect
 def index_police(request):
-    # Assuming CitizenProfile has fields 'drivers_id' and 'ghanacard_id'
-    all_citizens = CitizenProfile.objects.all()
-
     user_profile = get_object_or_404(Policeprofile, user=request.user)
+    # # Assuming CitizenProfile has fields 'drivers_id' and 'ghanacard_id'
+    # all_citizens = CitizenProfile.objects.all()
 
-    if request.method == "POST":
-        query = request.POST.get('q', '')
 
-        # Case-insensitive search for citizens whose driver's ID or GhanaCard ID contains the query
-        matched_citizens = all_citizens.filter(drivers_license_id__icontains=query) | all_citizens.filter(ghana_card_id__icontains=query)
+
+    # if request.method == "POST":
+    #     query = request.POST.get('q', '')
+
+    #     # Case-insensitive search for citizens whose driver's ID or GhanaCard ID contains the query
+    #     matched_citizens = all_citizens.filter(drivers_license_id__icontains=query) | all_citizens.filter(ghana_card_id__icontains=query)
         
-        if matched_citizens.exists():
-            # Redirect to the first matching citizen
-            return redirect('specific', identifier=matched_citizens.first().drivers_license_id)        
-        else:
-            # Handle the case where no matching citizens were found
-            messages.info(request,"User does does not exist")
-            return render(request, 'me/index_police.html', {"user": user_profile, "query": query})
+    #     if matched_citizens.exists():
+    #         # Redirect to the first matching citizen
+    #         return redirect('specific', identifier=matched_citizens.first().drivers_license_id)        
+    #     else:
+    #         # Handle the case where no matching citizens were found
+    #         messages.info(request,"User does does not exist")
+    #         return render(request, 'me/index_police.html', {"user": user_profile, "query": query})
 
     return render(request, 'me/index_police.html', {"user": user_profile})
+def specific_user(request,id):
+    return render(request 'me/specific.html')
 
 @login_required(login_url='police-login')
 def police_setting(request):
