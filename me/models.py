@@ -24,6 +24,7 @@ class CitizenProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     username = models.CharField(max_length=30, null=True,blank=True)
     first_name= models.CharField(max_length=100,null=True,blank=True)
+    email = models.EmailField(default=True, null=True)
     last_name = models.CharField(max_length=50,null=True,blank=True)
     ghana_card_id = models.CharField(max_length=30,null=True,blank=True,unique=True)
     ghana_card_image_front = models.ImageField(null=True,blank = True,upload_to="ghana_card_frontImage/")
