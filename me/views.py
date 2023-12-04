@@ -3,6 +3,7 @@ from django.contrib.auth.models import User, auth
 from django.contrib import messages
 from django.http import JsonResponse
 from django.http import Http404
+from allauth.account.utils import send_email_confirmation
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
@@ -21,6 +22,7 @@ def police_register(request):
     if request.method == 'POST':
         username = request.POST['username']
         password  = request.POST['password']
+        email = request.POST['email']
         password2 = request.POST['password2']        
         if password == password2:
             if User.objects.filter(username=username).exists():
@@ -28,7 +30,9 @@ def police_register(request):
                 return redirect('police-register')          
             
             else:
-                user = User.objects.create_user(username=username,password=password)
+                user = User.objects.create_user(username=username,email=email,password=password)
+                send_email_confirmation(request,user)
+                messages.success(request,"PLease check your email for confirmation")
                 user.save()                
                 #log user in and redirect to setting page
                 
