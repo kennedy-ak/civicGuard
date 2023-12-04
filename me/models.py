@@ -30,7 +30,7 @@ class CitizenProfile(models.Model):
     ghana_card_image_front = models.ImageField(null=True,blank = True,upload_to="ghana_card_frontImage/")
     ghana_card_image_back = models.ImageField(null=True,blank = True,upload_to="ghana_card_backImage/")
     drivers_license_id = models.CharField(max_length=10,blank=True,null=True)
-    driver_license_Image_front = models.ImageField(null=True,blank = True,upload_to="drivers_license_Image/")
+    driver_license_Image_front = models.ImageField(null=True,blank = True,upload_to="drivers_linence_Image/")
     postal_address = models.CharField(max_length=50,null=True,blank=True)
     phone_number = models.CharField(max_length=10,null=True,blank=True)
 

@@ -3,7 +3,6 @@ from django.contrib.auth.models import User, auth
 from django.contrib import messages
 from django.http import JsonResponse
 from django.http import Http404
-from allauth.account.utils import send_email_confirmation
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
@@ -22,7 +21,6 @@ def police_register(request):
     if request.method == 'POST':
         username = request.POST['username']
         password  = request.POST['password']
-        email = request.POST['email']
         password2 = request.POST['password2']        
         if password == password2:
             if User.objects.filter(username=username).exists():
@@ -30,9 +28,7 @@ def police_register(request):
                 return redirect('police-register')          
             
             else:
-                user = User.objects.create_user(username=username,email=email,password=password)
-                send_email_confirmation(request,user)
-                messages.success(request,"PLease check your email for confirmation")
+                user = User.objects.create_user(username=username,password=password)
                 user.save()                
                 #log user in and redirect to setting page
                 
@@ -211,7 +207,7 @@ def police_setting(request):
         return render(request, 'me/police_setting.html', {'forms': ProfileCreationForm()})
 
 @login_required(login_url='police-login')
-def edit_police_setting(request):
+def edit_setting(request):
     user_profile, created = Policeprofile.objects.get_or_create(user=request.user)
     msg = ""
 
@@ -236,14 +232,13 @@ def edit_police_setting(request):
             'last_name': user_profile.last_name,
         })
 
-    return render(request, 'me/edit_police_settings.html', {"user": user_profile, 'msg': msg, 'form': form})
+    return render(request, 'me/edit_settings.html', {"user": user_profile, 'msg': msg, 'form': form})
 
 ######################################################### Citizen Related Views RELATED VIEWS -##############################################################################################
 
 def citizen_register(request):
     if request.method == 'POST':
         username = request.POST['username']
-    
         password  = request.POST['password']
         password2 = request.POST['password2']        
         if password == password2:
@@ -252,7 +247,7 @@ def citizen_register(request):
                 return redirect('citizen-register')          
             
             else:
-                user = User.objects.create_user(username=username, password=password)
+                user = User.objects.create_user(username=username,password=password)
                 user.save()                
                 #log user in and redirect to setting page
                 
@@ -265,7 +260,9 @@ def citizen_register(request):
                 return redirect('citizen-setting')
         else:
             messages.info(request,'Password Not Matching')
-            return redirect('citizen-register')          
+            return redirect('citizen-register')
+
+            
 
     else:
         return render(request, 'me/citizen_register.html')
@@ -309,7 +306,6 @@ def citizen_setting(request):
             ghana_card_front_image = form.cleaned_data['ghana_card_image_front']
             ghana_card_back_image = form.cleaned_data['ghana_card_image_back']
             drivers_id = form.cleaned_data['drivers_license_id']
-           
             drivers_license_image = form.cleaned_data['drivers_license_image']
             post_address = form.cleaned_data['post_address']
             phone_number = form.cleaned_data['phone_number']
