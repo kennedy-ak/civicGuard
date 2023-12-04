@@ -114,8 +114,6 @@ def police_logout(request):
 
 @login_required(login_url='police-login')
 @csrf_protect
-
-
 def index_police(request):
 
     user_profile = get_object_or_404(Policeprofile, user=request.user)
@@ -350,6 +348,10 @@ def citizen_logout(request):
 @login_required(login_url='citizen-login')
 def citizen_homepage(request):
     user_profile = get_object_or_404(CitizenProfile, user=request.user)
+    if request.method == "POST":
+        all_complains = Complains.objects.filter(citizens=user_profile)
+        return render(request, 'me/index-citizen.html',{"user":user_profile,"all_complains":all_complains})
+
   
 
     return render(request, 'me/index-citizen.html',{"user":user_profile})

@@ -23,7 +23,34 @@
 
         <a href="{% url 'citizen-edit'%}"><button class="edit-button">Edit</button></a> 
         <a href="{% url 'citizen-logout'%}"><button>Logout</button></a>
+        <form action="" method="POST">
+            {% csrf_token %}
+         
+            <button type="submit">View Complains</button>
+        </form>
 
     
+
+{% if all_complains %}
+<div class="complaints-table">
+    <h3>Complaints:</h3>
+    <table>
+        <!-- ... (table header) -->
+        <tbody>
+            {% for complain in all_complains %}
+                <tr>
+                    <td></td>
+                    <td>{{ complain.region }}</td>
+                    <td>{{ complain.land_mark }}</td>
+                    <td>{{ complain.description }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+{% else %}
+<p>No complaints filed.</p>
+{% endif %}
 </body>
 </html> 
