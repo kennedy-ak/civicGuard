@@ -11,6 +11,8 @@ urlpatterns = [
     path('police/login',views.police_login,name='police-login'),
     path('police/logout',views.police_logout,name='police-logout'),
     path('index-police',views.index_police,name="landing"),
+    path("specific/<int:id>",views.specific_user,name="specific_user"),
+    path("complain",views.file_complaint,name="complain"),
 
 
 

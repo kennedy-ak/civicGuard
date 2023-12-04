@@ -70,6 +70,43 @@ def police_login(request):
 
 
 @login_required(login_url='police-login')
+def file_complaint(request):
+    # Ensure the user is logged in and is a police officer
+    # if not request.user.is_authenticated or not request.user.policeprofile:
+    #     return redirect('login')  # Redirect to the login page or handle authentication as needed
+
+    officer = request.user.policeprofile  # Get the logged-in police officer
+
+    if request.method == 'POST':
+        form = ComplainsForm(request.POST, initial={'officer': officer})
+        if form.is_valid():
+            citizen_id = form.cleaned_data.get('citizen_id')
+
+            # Check if the citizen with the provided ID exists
+            if citizen_id:
+                # Assuming that 'citizen_id' is a field in 'CitizenProfile'
+                citizen_profile = get_object_or_404(CitizenProfile, drivers_license_id=citizen_id)
+                
+                # Create a Complains instance with the associated citizen_profile
+                complaint = form.save(commit=False)
+                complaint.officer = officer
+                complaint.citizens = citizen_profile
+                complaint.save()
+
+                # Optionally, you can redirect the user to a success page
+                messages.success(request, 'Complaint filed successfully!')
+                return redirect('landing')
+            else:
+                messages.error(request, 'Citizen with the provided ID does not exist.')
+    else:
+        form = ComplainsForm(initial={'officer': officer})
+
+    return render(request, 'me/complains.html', {'form': form})
+
+
+
+
+@login_required(login_url='police-login')
 def police_logout(request):
     auth.logout(request)
 
@@ -77,27 +114,70 @@ def police_logout(request):
 
 @login_required(login_url='police-login')
 @csrf_protect
+
+
 def index_police(request):
-    # Assuming CitizenProfile has fields 'drivers_id' and 'ghanacard_id'
-    all_citizens = CitizenProfile.objects.all()
 
     user_profile = get_object_or_404(Policeprofile, user=request.user)
-
+    
+    #allowing the police search
     if request.method == "POST":
-        query = request.POST.get('q', '')
-
-        # Case-insensitive search for citizens whose driver's ID or GhanaCard ID contains the query
-        matched_citizens = all_citizens.filter(drivers_license_id__icontains=query) | all_citizens.filter(ghana_card_id__icontains=query)
+        q = request.POST.get('q', '')
         
-        if matched_citizens.exists():
-            # Redirect to the first matching citizen
-            return redirect('specific', identifier=matched_citizens.first().drivers_license_id)        
-        else:
-            # Handle the case where no matching citizens were found
-            messages.info(request,"User does does not exist")
-            return render(request, 'me/index_police.html', {"user": user_profile, "query": query})
+        if q:
+            multiple_q = Q(drivers_license_id__icontains=q) | Q(ghana_card_id__icontains=q)
+            data = CitizenProfile.objects.filter(multiple_q)
+            
+            if data.exists():
+                return render(request, 'me/index_police.html', {"user": user_profile, "data": data, "query": q})
+            else:
+                messages.info(request, "No matching results found.")
+        
+    if request.method == "POST":
+        all_complains = Complains.objects.filter(officer=user_profile,citizens__isnull=False)
+        return render(request, 'me/index_police.html', {"user": user_profile, "all_complains": all_complains})
 
     return render(request, 'me/index_police.html', {"user": user_profile})
+
+
+
+# def index_police(request):
+
+#     user_profile = get_object_or_404(Policeprofile, user=request.user)
+#     if request.method == "POST":
+  
+#         q = request.POST.get['q']
+
+#         multiple_q = Q(drivers_license_id__icontains=q) | Q(ghana_card_id__icontains=q)
+#         data = CitizenProfile.objects.filter(multiple_q)
+#         return render(request, 'me/index_police.html', {"user": user_profile, "data": data, "query": q})
+        
+#     # # Assuming CitizenProfile has fields 'drivers_id' and 'ghanacard_id'
+#     # all_citizens = CitizenProfile.objects.all()
+
+
+
+#     # if request.method == "POST":
+#     #     query = request.POST.get('q', '')
+
+#     #     # Case-insensitive search for citizens whose driver's ID or GhanaCard ID contains the query
+#     #     matched_citizens = all_citizens.filter(drivers_license_id__icontains=query) | all_citizens.filter(ghana_card_id__icontains=query)
+        
+#     #     if matched_citizens.exists():
+#     #         # Redirect to the first matching citizen
+#     #         return redirect('specific', identifier=matched_citizens.first().drivers_license_id)        
+#     #     else:
+#     #         # Handle the case where no matching citizens were found
+#     #         messages.info(request,"User does does not exist")
+#     #         return render(request, 'me/index_police.html', {"user": user_profile, "query": query})
+
+#     return render(request, 'me/index_police.html', {"user": user_profile})
+
+def specific_user(request,id):
+
+    user = CitizenProfile.objects.get(Q(drivers_license_id=id) | Q(ghana_card_id=id))  
+
+    return render(request, 'me/specific.html',{'user':user})
 
 @login_required(login_url='police-login')
 def police_setting(request):

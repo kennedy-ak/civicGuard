@@ -18,6 +18,12 @@
 
         <a href="{% url 'edit-police'%}"><button class="edit-button">Edit</button></a> 
         <a href="{% url 'police-logout'%}"><button>Logout</button></a>
+        <a href="{% url 'complain'%}"><button>Log Complains</button></a>
+        <form action="" method="POST">
+            {% csrf_token %}
+         
+            <button type="submit">View Complains</button>
+        </form>
     
         {% for message in messages %}
         <h5 class='message'>{{ message }}</h5>
@@ -31,9 +37,53 @@
         </form>
     </div>
     </div>
+ 
+
+{% comment %} <a href="{% url 'view-offense'%}"><button>View offenses</button></a> {% endcomment %}
+<script>
+    function clearSearchResults() {
+        // Clear the input field
+        document.querySelector('input[name="q"]').value = '';
+        // Submit the form to refresh the page
+        document.querySelector('form').submit();
+    }
+</script>
+
+ 
+    {% if data %}
+    <div class="search-results">
+        <h3>Search Results:</h3>
+        {% for result in data %}
+            <p>{{ result.first_name }} {{ result.last_name }}</p>
+            <!-- Add other fields you want to display -->
+        {% endfor %}
+    </div>
+    <button onclick="clearSearchResults()">Clear Search</button>
+
+{% endif %}
 
 
-    </script>
+{% if all_complains %}
+<div class="complaints-table">
+    <h3>Complaints:</h3>
+    <table>
+        <!-- ... (table header) -->
+        <tbody>
+            {% for complain in all_complains %}
+                <tr>
+                    <td>{{ complain.citizens }}</td>
+                    <td>{{ complain.region }}</td>
+                    <td>{{ complain.land_mark }}</td>
+                    <td>{{ complain.description }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <button onclick="clearComplaints()">Clear Complaints</button>
+</div>
+{% else %}
+<p>No complaints filed.</p>
+{% endif %}
 </body>
 </html>
 

@@ -40,13 +40,13 @@ class CitizenProfile(models.Model):
 
 class Complains(models.Model):
     officer = models.ForeignKey(Policeprofile, on_delete=models.PROTECT)
-    citizens = models.OneToOneField(CitizenProfile,null=True,blank=True, on_delete=models.PROTECT)
+    citizens = models.ForeignKey(CitizenProfile,null=True,blank=True, on_delete=models.PROTECT)
     region = models.CharField(max_length=30)
     land_mark = models.CharField(max_length=50)
     fine_paid = models.BooleanField(default=False)  # Default is False, indicating the fine is not paid
     date_created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.citizens}"
+        return f"{self.officer}-{self.citizens}"
 
     

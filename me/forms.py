@@ -23,8 +23,16 @@ class CitizenCreationForm(forms.Form):
 
 
 
+# class ComplainsForm(forms.ModelForm):
+#     citizen = forms.CharField(label="Enter Citizens Drivers ID")
+#     description = forms.CharField(label="Enter Offense")
+#     region = forms.CharField(label="Region")
+#     landmark = forms.CharField(label="Landmark")
+
+
 class ComplainsForm(forms.ModelForm):
-    citizen = forms.CharField(label="Enter Citizens Drivers ID")
-    description = forms.CharField(label="Enter Offense")
-    region = forms.CharField(label="Region")
-    landmark = forms.CharField(label="Landmark")
+    citizen_id = forms.CharField(label='Citizen ID', max_length=20)  # Add a CharField for manual input
+
+    class Meta:
+        model = Complains
+        fields = ['officer', 'citizen_id', 'region', 'land_mark', 'fine_paid']
