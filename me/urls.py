@@ -20,9 +20,11 @@ urlpatterns = [
     path('citizen/register',views.citizen_register,name="citizen-register"),
 
     path('citizen/setting',views.citizen_setting,name="citizen-setting"),
-    path('citizen/edit/setting',views.edit_citizen_setting,name="citizen-edit"),
+    path('citizen/edit/setting',resetviews.edit_citizen_setting,name="citizen-edit"),
     path('citizen/login',views.citizen_login,name="citizen-login"),
     path('citizen/logout',views.citizen_logout,name="citizen-logout"),
+    path("password_reset",view.password_reset,name ="password_reset"),
+    path("passwoed_reset/done".viewS_password_reset_done,name, name ="password_reset_done"),
 
 
 

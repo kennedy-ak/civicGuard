@@ -239,6 +239,7 @@ def edit_setting(request):
 def citizen_register(request):
     if request.method == 'POST':
         username = request.POST['username']
+    
         password  = request.POST['password']
         password2 = request.POST['password2']        
         if password == password2:
@@ -247,7 +248,7 @@ def citizen_register(request):
                 return redirect('citizen-register')          
             
             else:
-                user = User.objects.create_user(username=username,password=password)
+                user = User.objects.create_user(username=username, password=password)
                 user.save()                
                 #log user in and redirect to setting page
                 
@@ -260,9 +261,7 @@ def citizen_register(request):
                 return redirect('citizen-setting')
         else:
             messages.info(request,'Password Not Matching')
-            return redirect('citizen-register')
-
-            
+            return redirect('citizen-register')          
 
     else:
         return render(request, 'me/citizen_register.html')
@@ -281,7 +280,7 @@ def citizen_login(request):
             user = auth.authenticate(username=username, password=password)
             if user is not None:
                 auth.login(request,user)
-                print("login-passed")
+
                 return redirect('home-page')
             else:
                 messages.info(request, 'Credentials Invalid')
@@ -306,6 +305,7 @@ def citizen_setting(request):
             ghana_card_front_image = form.cleaned_data['ghana_card_image_front']
             ghana_card_back_image = form.cleaned_data['ghana_card_image_back']
             drivers_id = form.cleaned_data['drivers_license_id']
+           
             drivers_license_image = form.cleaned_data['drivers_license_image']
             post_address = form.cleaned_data['post_address']
             phone_number = form.cleaned_data['phone_number']
