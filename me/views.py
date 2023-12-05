@@ -253,14 +253,10 @@ def citizen_register(request):
             
             else:
                 user = User.objects.create_user(username=username,password=password)
-<<<<<<< HEAD
-                user.save()                
-=======
                 user.is_active = False
                 user.save()    
                 activateEmail(request, user ,email)   
                 return redirect('/')         
->>>>>>> feature
                 #log user in and redirect to setting page
                 
                 # user_login = auth.authenticate(username=username, password=password)
