@@ -9,6 +9,13 @@ from django.db.models import Q
 from .models import Policeprofile,CitizenProfile,Complains
 from .forms import ProfileCreationForm, CitizenCreationForm, ComplainsForm
 
+from django.template.loader import render_to_string
+from django.contrib.sites.shortcuts import get_current_site
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes,force_str
+from django.core.mail import EmailMessage
+
+
 
 # Create your views here.
 
@@ -238,6 +245,8 @@ def edit_setting(request):
 ######################################################### Citizen Related Views RELATED VIEWS -##############################################################################################
 
 def activateEmail(request, user, email):
+    mail_subject = "Activate your citzen account"
+    message = = render
     messages.success(request,f"Dear <b>{user} </b> please go to your email {email} inbox and click on it to register</b>")
 
 def citizen_register(request):

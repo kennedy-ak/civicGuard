@@ -7,7 +7,7 @@ urlpatterns = [
 
     path('police/register', views.police_register, name='police-register'),
     path('police/setting',views.police_setting,name="police-settings"), 
-    path('edit/police/setting',views.edit_police_setting,name="edit-police"),
+    path('edit/police/setting',views.edit_setting,name="edit-police"),
     path('police/login',views.police_login,name='police-login'),
     path('police/logout',views.police_logout,name='police-logout'),
     path('index-police',views.index_police,name="landing"),
