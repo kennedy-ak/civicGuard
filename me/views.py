@@ -2,13 +2,14 @@ from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
 from django.http import JsonResponse
+from django.contrib.auth import get_user_model
 from django.http import Http404
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from .models import Policeprofile,CitizenProfile,Complains
 from .forms import ProfileCreationForm, CitizenCreationForm, ComplainsForm
-
+from .tokens import account_activation_token
 from django.template.loader import render_to_string
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
@@ -244,10 +245,38 @@ def edit_setting(request):
 
 ######################################################### Citizen Related Views RELATED VIEWS -##############################################################################################
 
-def activateEmail(request, user, email):
-    mail_subject = "Activate your citzen account"
-    message = = render
-    messages.success(request,f"Dear <b>{user} </b> please go to your email {email} inbox and click on it to register</b>")
+def activate(request,uidb64,token):
+    user= get_user_model()
+    try:
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except:
+        user = None
+
+    if user is not None and account_activation_token.check_token(user, token):
+        user.is_active = True
+        user.save()
+        messages.success(request,"thank You for your email confirmation")
+    else:
+        messages.error(request,"Activation link is invalid")
+
+    return redirect('citizen-setting')
+
+def activateEmail(request, user, to_email):
+    mail_subject = "Activate your citizen account"
+    message =  render_to_string("me/template_acivate_account.html",{
+    'user': user.username,
+    'domain':get_current_site(request).domain,
+    'uid':urlsafe_base64_encode(force_bytes(user.pk)),
+    'token': account_activation_token.make_token(user),
+    'protocol':'https'if request.is_secure() else 'http'
+   } )
+    email= EmailMessage(mail_subject,message,to=[to_email])
+    if email.send():
+
+        messages.success(request,f"Dear <b>{user} </b> please go to your email {to_email} inbox and click on it to activate the email")
+    else:
+        message.error(request,f"problem sending email to {to_email} check if you typed the correct thing")
 
 def citizen_register(request):
     if request.method == 'POST':
@@ -265,16 +294,16 @@ def citizen_register(request):
                 user.is_active = False
                 user.save()    
                 activateEmail(request, user ,email)   
-                return redirect('/')         
+                        
                 #log user in and redirect to setting page
                 
-                # user_login = auth.authenticate(username=username, password=password)
-                # auth.login(request, user_login)
-                # # create a profile object
-                # user_model = User.objects.get(username=username)
-                # new_citizen_profile = CitizenProfile.objects.create(user=user_model,username=username)
-                # new_citizen_profile.save()
-                # return redirect('citizen-setting')
+                user_login = auth.authenticate(username=username, password=password)
+                auth.login(request, user_login)
+                # create a profile object
+                user_model = User.objects.get(username=username)
+                new_citizen_profile = CitizenProfile.objects.create(user=user_model,username=username)
+                new_citizen_profile.save()
+                return redirect('citizen-setting')
         else:
             messages.info(request,'Password Not Matching')
             return redirect('citizen-register')

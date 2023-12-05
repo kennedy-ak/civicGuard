@@ -23,6 +23,8 @@ urlpatterns = [
     path('citizen/edit/setting',views.edit_citizen_setting,name="citizen-edit"),
     path('citizen/login',views.citizen_login,name="citizen-login"),
     path('citizen/logout',views.citizen_logout,name="citizen-logout"),
+    path('activate/<uidb64>/<token>',views.activate,name="activate"),
+
 
 
 
