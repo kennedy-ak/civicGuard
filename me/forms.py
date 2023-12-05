@@ -11,7 +11,7 @@ class ProfileCreationForm(forms.Form):
 class CitizenCreationForm(forms.Form):
     first_name = forms.CharField(label="First Name", )
     last_name = forms.CharField(label="Last Name")
-
+    email = forms.EmailField(label="Enter your valid email")
     ghana_card_id = forms.CharField(label="Ghana Card Id")
     ghana_card_image_front= forms.ImageField()
     ghana_card_image_back= forms.ImageField()

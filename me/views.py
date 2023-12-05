@@ -197,6 +197,7 @@ def police_setting(request):
                 user_profile.last_name = last_name
                 user_profile.rank = rank
                 
+                
                 user_profile.save()
 
             
@@ -236,11 +237,14 @@ def edit_setting(request):
 
 ######################################################### Citizen Related Views RELATED VIEWS -##############################################################################################
 
+def activateEmail(request, user, email):
+    messages.success(request,f"Dear <b>{user} </b> please go to your email {email} inbox and click on it to register</b>")
+
 def citizen_register(request):
     if request.method == 'POST':
         username = request.POST['username']
-    
         password  = request.POST['password']
+        email= request.POST['email']
         password2 = request.POST['password2']        
         if password == password2:
             if User.objects.filter(username=username).exists():
@@ -248,20 +252,25 @@ def citizen_register(request):
                 return redirect('citizen-register')          
             
             else:
-                user = User.objects.create_user(username=username, password=password)
-                user.save()                
+                user = User.objects.create_user(username=username,password=password)
+                user.is_active = False
+                user.save()    
+                activateEmail(request, user ,email)   
+                return redirect('/')         
                 #log user in and redirect to setting page
                 
-                user_login = auth.authenticate(username=username, password=password)
-                auth.login(request, user_login)
-                # create a profile object
-                user_model = User.objects.get(username=username)
-                new_citizen_profile = CitizenProfile.objects.create(user=user_model,username=username)
-                new_citizen_profile.save()
-                return redirect('citizen-setting')
+                # user_login = auth.authenticate(username=username, password=password)
+                # auth.login(request, user_login)
+                # # create a profile object
+                # user_model = User.objects.get(username=username)
+                # new_citizen_profile = CitizenProfile.objects.create(user=user_model,username=username)
+                # new_citizen_profile.save()
+                # return redirect('citizen-setting')
         else:
             messages.info(request,'Password Not Matching')
-            return redirect('citizen-register')          
+            return redirect('citizen-register')
+
+            
 
     else:
         return render(request, 'me/citizen_register.html')
@@ -305,7 +314,6 @@ def citizen_setting(request):
             ghana_card_front_image = form.cleaned_data['ghana_card_image_front']
             ghana_card_back_image = form.cleaned_data['ghana_card_image_back']
             drivers_id = form.cleaned_data['drivers_license_id']
-           
             drivers_license_image = form.cleaned_data['drivers_license_image']
             post_address = form.cleaned_data['post_address']
             phone_number = form.cleaned_data['phone_number']
