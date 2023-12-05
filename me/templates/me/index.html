@@ -7,6 +7,10 @@ landing Page
 
 
     {% block content %}
+
+    {% for message in messages %}
+    <h5 class='message'>{{ message }}</h5>
+{% endfor %}
     <div class="container mt-5">
       <h1 class="display-4 text-center mb-4">Select the type of user you are:</h1>
 

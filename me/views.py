@@ -197,6 +197,7 @@ def police_setting(request):
                 user_profile.last_name = last_name
                 user_profile.rank = rank
                 
+                
                 user_profile.save()
 
             
@@ -236,10 +237,14 @@ def edit_setting(request):
 
 ######################################################### Citizen Related Views RELATED VIEWS -##############################################################################################
 
+def activateEmail(request, user, email):
+    messages.success(request,f"Dear <b>{user} </b> please go to your email {email} inbox and click on it to register</b>")
+
 def citizen_register(request):
     if request.method == 'POST':
         username = request.POST['username']
         password  = request.POST['password']
+        email= request.POST['email']
         password2 = request.POST['password2']        
         if password == password2:
             if User.objects.filter(username=username).exists():
@@ -248,16 +253,23 @@ def citizen_register(request):
             
             else:
                 user = User.objects.create_user(username=username,password=password)
+<<<<<<< HEAD
                 user.save()                
+=======
+                user.is_active = False
+                user.save()    
+                activateEmail(request, user ,email)   
+                return redirect('/')         
+>>>>>>> feature
                 #log user in and redirect to setting page
                 
-                user_login = auth.authenticate(username=username, password=password)
-                auth.login(request, user_login)
-                # create a profile object
-                user_model = User.objects.get(username=username)
-                new_citizen_profile = CitizenProfile.objects.create(user=user_model,username=username)
-                new_citizen_profile.save()
-                return redirect('citizen-setting')
+                # user_login = auth.authenticate(username=username, password=password)
+                # auth.login(request, user_login)
+                # # create a profile object
+                # user_model = User.objects.get(username=username)
+                # new_citizen_profile = CitizenProfile.objects.create(user=user_model,username=username)
+                # new_citizen_profile.save()
+                # return redirect('citizen-setting')
         else:
             messages.info(request,'Password Not Matching')
             return redirect('citizen-register')
