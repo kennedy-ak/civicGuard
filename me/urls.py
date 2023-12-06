@@ -24,6 +24,10 @@ urlpatterns = [
     path('citizen/login',views.citizen_login,name="citizen-login"),
     path('citizen/logout',views.citizen_logout,name="citizen-logout"),
     path('activate/<uidb64>/<token>',views.activate,name="activate"),
+    path("password_change",views.password_change,name="password_change"),
+    # path("password_reset",views.password_reset_request,name="password_reset"),
+    # path("reset/<uidb64>/<token>",views.passwordResetConfirm, name="password_reset_confirm"),
+
 
 
 

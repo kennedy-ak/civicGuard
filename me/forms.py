@@ -1,5 +1,6 @@
 from django import forms
-from .models import Policeprofile, CitizenProfile, Complains
+from .models import Policeprofile, CitizenProfile, Complains, get_user_model
+from django.contrib.auth.forms import SetPasswordForm, PasswordResetForm
 
 class ProfileCreationForm(forms.Form):
     image = forms.ImageField()
@@ -37,3 +38,9 @@ class ComplainsForm(forms.ModelForm):
     class Meta:
         model = Complains
         fields = ['officer', 'citizen_id', 'region', 'land_mark', 'fine_paid']
+
+
+class SetPasswordForm(SetPasswordForm):
+    class Meta:
+        model = get_user_model()
+        fields = ['newpassword1','new_password2']

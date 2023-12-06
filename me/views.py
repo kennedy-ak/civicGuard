@@ -8,7 +8,7 @@ from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from .models import Policeprofile,CitizenProfile,Complains
-from .forms import ProfileCreationForm, CitizenCreationForm, ComplainsForm
+from .forms import ProfileCreationForm, CitizenCreationForm, ComplainsForm, SetPasswordForm
 from .tokens import account_activation_token
 from django.template.loader import render_to_string
 from django.contrib.sites.shortcuts import get_current_site
@@ -244,6 +244,21 @@ def edit_setting(request):
     return render(request, 'me/edit_settings.html', {"user": user_profile, 'msg': msg, 'form': form})
 
 ######################################################### Citizen Related Views RELATED VIEWS -##############################################################################################
+@login_required
+def password_change(request):
+    user = request.user
+    if request.method == "POST":
+        form = SetPasswordForm(user, request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Your password has been changed")
+            return redirect("citizen-login")
+        else:
+            for error in list(form.errors_values()):
+                messages.error(request, error)
+    form = SetPasswordForm(user)
+    return render(request ,'me/password_reset_confirm.html',{'form':form})
+ 
 
 def activate(request,uidb64,token):
     user= get_user_model()
