@@ -241,7 +241,7 @@ def edit_setting(request):
             'last_name': user_profile.last_name,
         })
 
-    return render(request, 'me/edit_settings.html', {"user": user_profile, 'msg': msg, 'form': form})
+    return render(request, 'me/edit_police_settings.html', {"user": user_profile, 'msg': msg, 'form': form})
 
 ######################################################### Citizen Related Views RELATED VIEWS -##############################################################################################
 @login_required
@@ -313,6 +313,7 @@ def citizen_register(request):
                 #log user in and redirect to setting page
                 
                 user_login = auth.authenticate(username=username, password=password)
+                print("user_login",user_login)
                 auth.login(request, user_login)
                 # create a profile object
                 user_model = User.objects.get(username=username)
