@@ -20,6 +20,6 @@ class CitzenAdmin(admin.ModelAdmin):
 @admin.register(Complains)
 
 class ComplainsAdmin(admin.ModelAdmin):
-    list_display = ('officer','citizens','date_created','region')
+    list_display = ('officer','citizens','date_created','region','status')
     search_fields = ('officer','citizens')
-    list_filter =('citizens','officer','date_created')
+    list_filter =('citizens','officer','date_created','status')

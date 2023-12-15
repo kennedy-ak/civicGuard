@@ -6,6 +6,15 @@ User = get_user_model()
 
 # Create your models here.
 
+class PaidOffenses(models.Manager):
+    def get_queryset(self):
+        return super(PaidOffenses, self).get_queryset().filter(status='fine_paid')
+
+class PendingOffenses(models.Manager):
+    def get_queryset(self):
+        return super(PendingOffenses, self).get_queryset().filter(status='pending_payment')
+   
+
 class Policeprofile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     service_id = models.CharField(max_length=10,unique=True)
@@ -38,14 +47,23 @@ class CitizenProfile(models.Model):
     def __str__(self):
         return f"{self.first_name}"
     
-
 class Complains(models.Model):
+    STATUS_CHOICES = (
+        ('pending_payment', 'Pending'),
+        ('fine_paid', 'Paid')
+    )
+
     officer = models.ForeignKey(Policeprofile, on_delete=models.PROTECT)
-    citizens = models.ForeignKey(CitizenProfile,null=True,blank=True, on_delete=models.PROTECT)
+    citizens = models.ForeignKey(CitizenProfile, null=True, blank=True, on_delete=models.PROTECT)
     region = models.CharField(max_length=30)
     land_mark = models.CharField(max_length=50)
-    fine_paid = models.BooleanField(default=False)  # Default is False, indicating the fine is not paid
     date_created = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=30,
+                              choices=STATUS_CHOICES,
+                              default='pending_payment', blank=True, null=True)
+    objects = models.Manager()  # default manager
+    fine_paid = PaidOffenses()
+    pending = PendingOffenses()
 
     def __str__(self):
         return f"{self.officer}-{self.citizens}"
