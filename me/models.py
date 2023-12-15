@@ -53,8 +53,8 @@ class Complains(models.Model):
         ('fine_paid', 'Paid')
     )
 
-    officer = models.ForeignKey(Policeprofile, on_delete=models.PROTECT)
-    citizens = models.ForeignKey(CitizenProfile, null=True, blank=True, on_delete=models.PROTECT)
+    officer = models.ForeignKey(Policeprofile, on_delete=models.CASCADE)
+    citizens = models.ForeignKey(CitizenProfile, null=True, blank=True, on_delete=models.CASCADE)
     region = models.CharField(max_length=30)
     land_mark = models.CharField(max_length=50)
     date_created = models.DateTimeField(auto_now_add=True)
