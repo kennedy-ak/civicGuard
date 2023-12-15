@@ -37,7 +37,7 @@ class ComplainsForm(forms.ModelForm):
 
     class Meta:
         model = Complains
-        fields = ['officer', 'citizen_id', 'region', 'land_mark', 'status']
+        fields = ['officer', 'citizen_id', 'region', 'land_mark', ]
 
 
 class SetPasswordForm(SetPasswordForm):
