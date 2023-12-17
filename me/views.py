@@ -306,9 +306,9 @@ def citizen_register(request):
             
             else:
                 user = User.objects.create_user(username=username,password=password)
-                user.is_active = False
+                # user.is_active = False
                 user.save()    
-                activateEmail(request, user ,email)   
+                # activateEmail(request, user ,email)   
                         
                 #log user in and redirect to setting page
                 

@@ -71,10 +71,14 @@
         <tbody>
             {% for complain in all_complains %}
                 <tr>
+                   
                     <td>{{ complain.citizens }}</td>
                     <td>{{ complain.region }}</td>
                     <td>{{ complain.land_mark }}</td>
                     <td>{{ complain.description }}</td>
+                    {% if complain.status == ""%}
+                  <a href=""></a>  <td> {{ complain.status}}</td>
+                    <td> {{ complain.date_created|date }}</td>
                 </tr>
             {% endfor %}
         </tbody>
