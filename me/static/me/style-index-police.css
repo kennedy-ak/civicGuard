@@ -1,17 +1,17 @@
-body {
+/* body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
     margin: 0;
     padding: 0;
     display: flex;
     align-items: center;
-    justify-content: flex-end; /* Align to the right */
+    justify-content: flex-end; 
     height: 100vh;
 }
 
 .user-profile-container {
     text-align: center;
-    margin-right: 20px; /* Add margin for better spacing */
+    margin-right: 20px;
 }
 
 .user-image {
@@ -37,4 +37,4 @@ body {
 
 .edit-button:hover {
     background-color: #0056b3;
-}
+} */

@@ -1,4 +1,4 @@
-body {
+/* body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
     margin: 0;
@@ -70,11 +70,11 @@ button:hover {
 }
 
 
-/* Existing styles... */
+
 
 .message {
-    color: #dc3545; /* Red color for error messages */
+    color: #dc3545; 
     margin: 5px 0;
 }
 
-/* Additional styles... */
+/ */

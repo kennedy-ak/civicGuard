@@ -1,34 +1,27 @@
-{% load static %}
+
+
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     {% block css %}
-    {% comment %} <link rel="stylesheet" href="{% static 'me/styles.css' %}"> {% endcomment %}
+ 
 
     {% endblock css %}
+    <title>        {% block title %}{% endblock title %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  </head>
+  <body>
 
-    <title>
-        {% block title %}{% endblock title %}
-    </title>
-</head>
-<body>
     <div class="navbar">
         <a href="{% url 'main'%}"><button class="nav-button">Home</button></a>
-        <a href="{% url 'citizen-register'%}"><button class="nav-button">Citizen Register</button></a>
-        <a href="{% url 'citizen-login'%}"><button class="nav-button">Citizen Login</button></a>
-        <a href="{% url 'police-register'%}"><button class="nav-button">Police Register</button></a>
-        <a href="{% url 'police-login'%}"><button class="nav-button">Police Login</button></a>
-  
         
-        
-        
-  
     </div>
 
     {% block content %}{% endblock content %}
 
-</body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+  </body>
 </html>

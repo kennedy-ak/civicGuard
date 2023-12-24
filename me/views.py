@@ -411,7 +411,7 @@ def citizen_logout(request):
 def citizen_homepage(request):
     user_profile = get_object_or_404(CitizenProfile, user=request.user)
     if request.method == "POST":
-        all_complains = Complains.objects.filter(citizens=user_profile)
+        all_complains = Complains.pending(citizens=user_profile)
         return render(request, 'me/index-citizen.html',{"user":user_profile,"all_complains":all_complains})
 
   

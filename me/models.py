@@ -68,4 +68,4 @@ class Complains(models.Model):
     def __str__(self):
         return f"{self.officer}-{self.citizens}"
 
-    
+

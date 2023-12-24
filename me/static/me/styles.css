@@ -1,18 +1,18 @@
-body {
+/* body {
     margin: 0;
     padding: 0;
 }
 
 .navbar {
-    background-color: #333; /* Choose your desired background color */
+    background-color: #333; 
     display: flex;
     justify-content: space-around;
     align-items: center;
-    height: 60px; /* Adjust the height as needed */
+    height: 60px; 
 }
 
 .nav-button {
-    background-color: #555; /* Choose your desired button color */
+    background-color: #555;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -21,5 +21,5 @@ body {
 }
 
 .nav-button:hover {
-    background-color: #777; /* Choose your desired button color on hover */
-}
+    background-color: #777;
+} */
