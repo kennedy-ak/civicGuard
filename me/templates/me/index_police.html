@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {% comment %} <link rel="stylesheet" href="{% static 'me/style-index-police.css' %}"> {% endcomment %}
+
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <title>Home</title>
 </head>
@@ -27,7 +27,7 @@
     
         {% for message in messages %}
         <h5 class='message'>{{ message }}</h5>
-    {% endfor %}
+        {% endfor %}
 
     <div class="search-container">
         <form action="" method="POST">
@@ -39,7 +39,6 @@
     </div>
  
 
-{% comment %} <a href="{% url 'view-offense'%}"><button>View offenses</button></a> {% endcomment %}
 <script>
     function clearSearchResults() {
         // Clear the input field
@@ -50,7 +49,7 @@
 </script>
 
  
-    {% if data %}
+{% if data %}
     <div class="search-results">
         <h3>Search Results:</h3>
         {% for result in data %}
@@ -64,29 +63,30 @@
 
 
 {% if all_complains %}
-<div class="complaints-table">
-    <h3>Complaints:</h3>
-    <table>
-        <!-- ... (table header) -->
-        <tbody>
+    <div class="complaints-table">
+        <h3>Complaints:</h3>
+        <table>
+            <!-- ... (table header) -->
             {% for complain in all_complains %}
+            <tbody>
                 <tr>
-                   
                     <td>{{ complain.citizens }}</td>
                     <td>{{ complain.region }}</td>
                     <td>{{ complain.land_mark }}</td>
                     <td>{{ complain.description }}</td>
-                    {% if complain.status == ""%}
-                  <a href=""></a>  <td> {{ complain.status}}</td>
-                    <td> {{ complain.date_created|date }}</td>
+                    {% if complain.status == "" %}
+                        <td> {{ complain.status}}</td>
+                        <td> {{ complain.date_created|date }}</td>
+                    {% endif %}
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <button onclick="clearComplaints()">Clear Complaints</button>
-</div>
-{% else %}
-<p>No complaints filed.</p>
+            </tbody>
+        {% endfor %}
+        </table>
+        <button onclick="clearComplaints()">Clear Complaints</button>
+    </div>
+        {% else %}
+        <p>No complaints filed.</p>
+
 {% endif %}
 </body>
 </html>
