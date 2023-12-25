@@ -12,7 +12,7 @@ login
 {% endblock css %}
 
 {% block content %}
-<div class="login-container">
+{% comment %} <div class="login-container">
     <h1>Citizen Login</h1>
 
     
@@ -35,6 +35,32 @@ login
         </div>
    
     </form>
+</div> {% endcomment %}
+
+<h1 class="text-center">Citizen Login</h1>
+{% for message in messages %}
+<h5 class='message'>{{ message }}</h5>
+{% endfor %}
+<form method="POST" action="">
+    {% csrf_token %}
+  <div class="mb-3" 
+    <label for="exampleInputUsername" class="form-label">Usernamed</label>
+    <input type="text"  name="username"  class="form-control" id="exampleInputUsername" aria-describedby="usernameHelp" required>
+    <div id="usernameHelp"  class="form-text">please enter your unique username.</div>
+  </div>
+  <div class="mb-3">
+    <label for="exampleInputPassword" class="form-label">Password</label>
+    <input type="password" name="password" class="form-control" id="exampleInputPassword" required>
+  </div>
+
+  <div class="register-link">
+    <p > Not registered? <a href="{% url 'citizen-register' %}" class=""> Create a account </a></p>
 </div>
 
+  <button type="submit" class="btn btn-outline-success">Login</button>
+
+</form>
+</div>
+
+</form>
 {% endblock content %}

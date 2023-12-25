@@ -147,45 +147,13 @@ def index_police(request):
 
 
 
-# def index_police(request):
-
-#     user_profile = get_object_or_404(Policeprofile, user=request.user)
-#     if request.method == "POST":
-  
-#         q = request.POST.get['q']
-
-#         multiple_q = Q(drivers_license_id__icontains=q) | Q(ghana_card_id__icontains=q)
-#         data = CitizenProfile.objects.filter(multiple_q)
-#         return render(request, 'me/index_police.html', {"user": user_profile, "data": data, "query": q})
-        
-#     # # Assuming CitizenProfile has fields 'drivers_id' and 'ghanacard_id'
-#     # all_citizens = CitizenProfile.objects.all()
-
-
-
-#     # if request.method == "POST":
-#     #     query = request.POST.get('q', '')
-
-#     #     # Case-insensitive search for citizens whose driver's ID or GhanaCard ID contains the query
-#     #     matched_citizens = all_citizens.filter(drivers_license_id__icontains=query) | all_citizens.filter(ghana_card_id__icontains=query)
-        
-#     #     if matched_citizens.exists():
-#     #         # Redirect to the first matching citizen
-#     #         return redirect('specific', identifier=matched_citizens.first().drivers_license_id)        
-#     #     else:
-#     #         # Handle the case where no matching citizens were found
-#     #         messages.info(request,"User does does not exist")
-#     #         return render(request, 'me/index_police.html', {"user": user_profile, "query": query})
-
-#     return render(request, 'me/index_police.html', {"user": user_profile})
-
 def specific_user(request,id):
 
     user = CitizenProfile.objects.get(Q(drivers_license_id=id) | Q(ghana_card_id=id))  
 
     return render(request, 'me/specific.html',{'user':user})
 
-@login_required(login_url='police-login')
+# @login_required(login_url='police-login')
 def police_setting(request):
     if request.user.is_authenticated: 
  
@@ -297,7 +265,7 @@ def citizen_register(request):
     if request.method == 'POST':
         username = request.POST['username']
         password  = request.POST['password']
-        email= request.POST['email']
+   
         password2 = request.POST['password2']        
         if password == password2:
             if User.objects.filter(username=username).exists():
@@ -407,12 +375,11 @@ def citizen_logout(request):
 
     return redirect('citizen-login')
 
-@login_required(login_url='citizen-login')
 def citizen_homepage(request):
     user_profile = get_object_or_404(CitizenProfile, user=request.user)
     if request.method == "POST":
         all_complains = Complains.pending(citizens=user_profile)
-        return render(request, 'me/index-citizen.html',{"user":user_profile,"all_complains":all_complains})
+        return render(request, 'me/index-citizen.html', {"user": user_profile, "all_complains": all_complains})
 
   
 

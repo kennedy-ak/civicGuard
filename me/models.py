@@ -65,6 +65,17 @@ class Complains(models.Model):
     fine_paid = PaidOffenses()
     pending = PendingOffenses()
 
+
+    @staticmethod
+    def pending(citizens):
+        return Complains.objects.filter(citizens=citizens, status='pending_payment')
+
+    @staticmethod
+    def paid(citizens):
+        return Complains.objects.filter(citizens=citizens, status='fine_paid')
+
+
+
     def __str__(self):
         return f"{self.officer}-{self.citizens}"
 

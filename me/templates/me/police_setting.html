@@ -14,12 +14,51 @@
     <h5 class='message'>{{ message }}</h5>
 {% endfor %}
 
-    <form method="POST" action="" enctype="multipart/form-data">
+  {% comment %} <form method="POST" action="" enctype="multipart/form-data">
         {%csrf_token%}
 
 
         {{forms.as_p}}
         <button type="submit">Save</button>
+    </form>  {% endcomment %}
+
+
+
+  {% comment %} <form method="POST" action="" enctype="multipart/form-data" class="mt-5">
+        {% csrf_token %}
+
+        <!-- Add Bootstrap classes to form elements -->
+        <div class="form-group">
+            {{ forms.as_p }}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save</button>
+    </form> {% endcomment %} 
+
+    <form method="POST" action="" enctype="multipart/form-data" class="mt-5">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label for="{{ forms.image.id_for_label }}">Profile Image</label>
+            {{ forms.image }}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ forms.rank.id_for_label }}">Rank</label>
+            {{ forms.rank }}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ forms.first_name.id_for_label }}">First Name</label>
+            {{ forms.first_name }}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ forms.last_name.id_for_label }}">Last Name</label>
+            {{ forms.last_name }}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save</button>
     </form>
 
    

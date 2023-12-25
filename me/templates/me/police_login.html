@@ -10,7 +10,7 @@
 {% endblock css %}
 
 {% block content %}
-    <div class="login-container">
+    {% comment %} <div class="login-container">
         <h1>Police Login</h1>
         
         {% for message in messages %}
@@ -18,13 +18,13 @@
         {% endfor %}
 
         <form method="POST" action="">
-            {% csrf_token %}
+           
             
             <label for="username">Username:</label>
-            <input type="text" id="username" name="username" required>
+            <input type="text" id="username" name="username" >
 
             <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
+            <input type="password" id="password"  required>
 
             <button type="submit">Login</button>
         </form>
@@ -32,8 +32,31 @@
         <div class="register-link">
             <p>Not registered? <a href="{% url 'police-register' %}" class="">Create an account</a></p>
         </div>
-    </div>
+    </div> {% endcomment %}
 
-
+ 
+        <h1 class="text-center">Police Login</h1>
+        {% for message in messages %}
+        <h5 class='message'>{{ message }}</h5>
+    {% endfor %}
+        <form method="POST" action="">
+            {% csrf_token %}
+          <div class="mb-3" 
+            <label for="exampleInputUsername" class="form-label">Police Service Id</label>
+            <input type="text"  name="username"  class="form-control" id="exampleInputUsername" aria-describedby="usernameHelp" required>
+            <div id="usernameHelp"  class="form-text">Enter your service ID.</div>
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputPassword" class="form-label">Password</label>
+            <input type="password" name="password" class="form-control" id="exampleInputPassword" required>
+          </div>
+          <div class="register-link">
+            <p>Not registered? <a href="{% url 'police-register' %}" class="">Create an account</a></p>
+        </div>
+          <button type="submit" class="btn btn-primary">Login</button>
+        </form>
+      </div>
+      
+      </form>
 
 {% endblock content %}

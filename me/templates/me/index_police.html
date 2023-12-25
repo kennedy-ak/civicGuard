@@ -5,12 +5,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <title>Home</title>
 </head>
 <body>
-    <div class="user-profile-container">
+    {% comment %} <div class="user-profile-container">
+        <img src="{{ user.image.url }}" class="rounded float-start" alt="profileImg">
+
          <img height="200" width="200" src="{{ user.image.url }}" alt="{{ user.first_name }}" class="user-image"> 
         <h2 class="user-name">{{user.rank}}</h2>
         <h2 class="user-name">{{ user.first_name }}</h2>
@@ -23,12 +25,12 @@
             {% csrf_token %}
          
             <button type="submit">View Complains</button>
-        </form>
+        </form> {% endcomment %}
     
-        {% for message in messages %}
+        {% comment %} {% for message in messages %}
         <h5 class='message'>{{ message }}</h5>
-        {% endfor %}
-
+        {% endfor %} {% endcomment %}
+{% comment %} 
     <div class="search-container">
         <form action="" method="POST">
             {% csrf_token %}
@@ -36,7 +38,7 @@
             <button type="submit">Search</button>
         </form>
     </div>
-    </div>
+    </div> {% endcomment %}
  
 
 <script>
@@ -48,8 +50,9 @@
     }
 </script>
 
+
  
-{% if data %}
+{% comment %} {% if data %}
     <div class="search-results">
         <h3>Search Results:</h3>
         {% for result in data %}
@@ -59,10 +62,10 @@
     </div>
     <button onclick="clearSearchResults()">Clear Search</button>
 
-{% endif %}
+{% endif %} {% endcomment %}
 
 
-{% if all_complains %}
+{% comment %} {% if all_complains %}
     <div class="complaints-table">
         <h3>Complaints:</h3>
         <table>
@@ -87,7 +90,136 @@
         {% else %}
         <p>No complaints filed.</p>
 
+{% endif %} {% endcomment %}
+
+<div class="container text-center">
+    <div class="row">
+        <div class="col">
+            <img src="{{ user.image.url }}" class="rounded float-start" alt="profileImg">
+            <h2 class="user-name">{{user.rank}}</h2>
+            <h2 class="user-name">{{ user.first_name }}</h2>
+            <h2 class ="user-name">{{user.last_name}}</h2>
+    
+        </div>
+        <div class="col-6">
+
+            <a href="{% url 'complain'%}"><button type="button" class="btn btn-outline-warning">Log Road Traffic Voilation</button>
+            </a>
+        </div>
+        <div class="col">
+            
+            <form action="" method="POST">
+                {% csrf_token %}
+              
+                <button type="submit" class="btn btn-outline-info">View Road Traffic offenses</button>
+
+            </form>
+{% comment %} 
+    {% if all_complains %}
+    <div class="complaints-table">
+        <h3>Complaints:</h3>
+        <table>
+            <!-- ... (table header) -->
+            {% for complain in all_complains %}
+            <tbody>
+                <tr>
+                    <td>{{ complain.citizens }}</td>
+                    <td>{{ complain.region }}</td>
+                    <td>{{ complain.land_mark }}</td>
+                    <td>{{ complain.citizens }}</td>
+                    <td>{{ complain.description }}</td>
+                    {% if complain.status == "" %}
+                        <td> {{ complain.status}}</td>
+                        <td> {{ complain.date_created|date }}</td>
+                    {% endif %}
+                </tr>
+            </tbody>
+        {% endfor %}
+        </table>
+        <button onclick="clearComplaints()">Clear Complaints</button>
+    </div>
+        {% else %}
+        <p>No complaints filed.</p>
+
+{% endif %} {% endcomment %}
+{% if all_complains %}
+<h3>Complaints:</h3>
+<table class="table">
+    <thead>
+      <tr>
+        
+        <th scope="col">Name</th>
+        <th scope="col">Region</th>
+        
+        <th scope="col">Status</th>
+        <th scope="col">Date Created</th>
+      </tr>
+    </thead>
+    {% for complain in all_complains %}
+    <tbody>
+      <tr>
+       
+        <td>{{ complain.citizens }}</td>
+        <td>{{ complain.region }}</td>
+        <td> {{ complain.status}}</td>
+        <td> {{ complain.date_created|date }}</td>
+      </tr>
+    
+    </tbody>
+    {% endfor %}
+  
+  </table>
+  <button onclick="clearComplaints()">Clear Complaints</button>
+  {% endif %}
+
+ 
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col">
+            
+
+            <a href="{% url 'edit-police'%}"><button type="button" class="btn btn-primary">Edit</button></a>
+            <a href="{% url 'police-logout'%}"><button type="button" class="btn btn-outline-secondary">Logout</button>
+            </a>
+        </div>
+        <div class="col-5">
+
+            {% for message in messages %}
+            <h5 class='message'>{{ message }}</h5>
+            {% endfor %}
+            <div class="search-container">
+
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    <input type="text" class="form-control" name="q"placeholder="Search" aria-label="Search" aria-describedby="search-btn">
+                    <button class="btn btn-outline-secondary" type="submit" id="search-btn">Search</button>
+                </form>
+            </div>
+
+            {% if data %}
+    <div class="search-results">
+        <h3>Search Results:</h3>
+        {% for result in data %}
+            <p>{{ result.first_name }} {{ result.last_name }}</p>
+            <!-- Add other fields you want to display -->
+        {% endfor %}
+    </div>
+    <button onclick="clearSearchResults()">Clear Search</button>
+
 {% endif %}
+
+
+
+
+           
+        </div>
+        <div class="col">
+            <!-- Additional content or leave it empty -->
+        </div>
+    </div>
+</div>
+
 </body>
 </html>
 

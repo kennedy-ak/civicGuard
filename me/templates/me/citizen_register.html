@@ -11,7 +11,7 @@ Register
 {% endblock css %}
 
 {% block content %}
-<div class="registration-container">
+{% comment %} <div class="registration-container">
     <h1>Citizen Register</h1>
 
     {% for message in messages %}
@@ -40,5 +40,37 @@ Register
     <div class="login-link">
         <p>Do you have an account? <a href="{% url 'citizen-login' %}">Login</a></p>
     </div>
+</div> {% endcomment %}
+
+     
+<h1 class="text-center">Citizen Register</h1>
+{% for message in messages %}
+<h5 class='message'>{{ message }}</h5>
+{% endfor %}
+<form method="POST" action="">
+    {% csrf_token %}
+  <div class="mb-3" 
+    <label for="exampleInputUsername" class="form-label">Username</label>
+    <input type="text"  name="username"  class="form-control" id="exampleInputUsername" aria-describedby="usernameHelp" required>
+    <div id="usernameHelp"  class="form-text">Please Enter a unique username</div>
+  </div>
+  <div class="mb-3">
+    <label for="exampleInputPassword" class="form-label">Password</label>
+    <input type="password" name="password" class="form-control" id="exampleInputPassword" required>
+  </div>
+  <div class="mb-3">
+    <label for="exampleInputPassword" class="form-label"> Confirm Password</label>
+    <input type="password" name="password2" class="form-control" id="exampleInputPassword" required>
+    <div id="usernameHelp"  class="form-text">Please Confirm your Password</div> 
 </div>
+<div class="login-link">
+    <p>Do you have an account? <a href="{% url 'citizen-login' %}">Login</a></p>
+</div>
+
+  <button type="submit" class="btn btn-outline-warning">Register</button>
+
+</form>
+</div>
+
+</form>
 {% endblock content %}
