@@ -13,6 +13,10 @@ class PaidOffenses(models.Manager):
 class PendingOffenses(models.Manager):
     def get_queryset(self):
         return super(PendingOffenses, self).get_queryset().filter(status='pending_payment')
+
+class Citizen(models.Manager):
+    def get_query_set(self):
+        return super
    
 
 class Policeprofile(models.Model):

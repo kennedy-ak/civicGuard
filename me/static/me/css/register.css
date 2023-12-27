@@ -1,0 +1,63 @@
+*{
+    margin: 0;
+    padding:0;
+    box-sizing: border-box;
+}
+nav h1{
+    color: #06631A;
+    font-family: Righteous;
+    font-size: 2.125rem;
+    font-weight: 400;
+
+}
+.fill_in{
+    font-size: 0.7rem;
+}
+.main_logo{
+    width: 4.6875rem;
+    height: 5.8125rem;
+    
+}
+button{
+    font-size: 1.50rem;
+}
+
+input{
+    margin-top: 0rem;
+    height: 2.3rem;
+}
+form{
+    padding: 1.2rem 2.88rem 1.4rem 1.8rem;
+    margin: 10% auto;
+}
+p{
+    margin-top: 0.5rem;
+    color: #000;
+}
+.file_btn{
+    color: #006CEA;
+    font-size: 0.6rem;
+    margin-left: 71%;
+    margin-top: 0.2rem;
+    max-width: 6.375rem;
+    height: 1.325rem;
+    border: 1px solid #006CEA;
+    border-radius: 0.5rem;
+}
+.file_btn:active{
+    color: #006dea99;
+
+}
+.terms{
+    font-size: 0.55rem;
+    color: #5E645F;
+    text-align: center;
+}
+.submit_btn{
+     height: 2.3rem;
+}
+
+.choose{
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
+}

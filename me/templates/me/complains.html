@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{% comment %} <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -23,5 +23,76 @@
     <a href="javascript:history.back()" class="btn btn-danger">Cancel</a>
 
    
+</body>
+</html> {% endcomment %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/log_complain.css">
+    <link rel="stylesheet" href="{% static 'me/css/log_complain.css' %}">
+    <title>Log Complain</title>
+</head>
+<body>
+    <main>
+        <section class="container">
+                <nav>
+                    <img class="driver" src="{% static 'me/images/Church Round Logo.png' %}">
+                    <h1>Log Complain</h1>
+                </nav>
+
+                <form>
+                    <label>Service ID</label><br><input type="text" required >
+                    <label>Offender's Name</label><input type="text" required  >
+                    <label>Offender's Ghana Card ID </label><input type="tel" required >
+
+                    <label for="Offenses">Offense</label>
+                    <select id="Offenses" name="Offenses" required>
+                        <option value="">Select Offense</option>
+                        <option value="speeding">Speeding</option>
+                        <option value="reckless-driving">Reckless Driving</option>
+                        <option value="running-red-light">Running Red Light</option>
+                        <option value="improper-lane-change">Improper Lane Change</option>
+                        <option value="DUI">Driving Under the Influence (DUI)</option>
+                        <option value="distracted-driving">Distracted Driving</option>
+                        <option value="seatbelt-violation">Seatbelt Violation</option>
+                        <option value="expired-license">Expired License</option>
+                        <option value="no-insurance">No Insurance</option>
+                    </select>
+                    
+                    <label for="location">Region</label>
+                    <select id="location" name="location" required>
+                        <option value="">Select Region</option>
+                        <option value="Greater Accra">Greater Accra</option>
+                        <option value="Volta">Volta</option>
+                        <option value="Eastern">Eastern</option>
+                        <option value="Western">Western</option>
+                        <option value="Northern">Northern</option>
+                        <option value="Central">Central</option>
+                        <option value="Ashanti">Ashanti</option>
+                        <option value="Brong-Ahafo">Brong-Ahafo</option>
+                        <option value="Upper East">Upper East</option>
+                        <option value="Upper West">Upper West</option>
+                        <option value="Western North">Western North</option>
+                        <option value="Oti">Oti</option>
+                        <option value="Savannah">Savannah</option>
+                        <option value="North East">North East</option>
+                        <option value="Ahafo">Ahafo</option>
+                        <option value="Bono East">Bono East</option>
+                        <option value="Bono">Bono</option>
+                    </select>
+                    
+                    <button type="submit">Submit</button>
+                    <button><a href="javascript:history.back()" class="btn btn-danger">Cancel</a></button>
+                 
+                </form>
+
+        </section>
+    </main>
+
+
 </body>
 </html>

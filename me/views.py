@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
+from datetime import datetime
 from django.http import JsonResponse
 from django.contrib.auth import get_user_model
 from django.http import Http404
@@ -95,6 +96,7 @@ def file_complaint(request):
                 # Assuming that 'citizen_id' is a field in 'CitizenProfile'
                 citizen_profile = get_object_or_404(CitizenProfile, drivers_license_id=citizen_id)
                 
+                
                 # Create a Complains instance with the associated citizen_profile
                 complaint = form.save(commit=False)
                 complaint.officer = officer
@@ -135,15 +137,15 @@ def index_police(request):
             data = CitizenProfile.objects.filter(multiple_q)
             
             if data.exists():
-                return render(request, 'me/index_police.html', {"user": user_profile, "data": data, "query": q})
+                return render(request, 'me/officer_dashboard.html', {"user": user_profile, "data": data, "query": q,'time':datetime.now()})
             else:
                 messages.info(request, "No matching results found.")
         
     if request.method == "POST":
         all_complains = Complains.objects.filter(officer=user_profile,citizens__isnull=False)
-        return render(request, 'me/index_police.html', {"user": user_profile, "all_complains": all_complains})
+        return render(request, 'me/officer_dashboard.html', {"user": user_profile, "all_complains": all_complains,'time':datetime.now()})
 
-    return render(request, 'me/index_police.html', {"user": user_profile})
+    return render(request, 'me/officer_dashboard.html', {"user": user_profile, 'time':datetime.now()})
 
 
 

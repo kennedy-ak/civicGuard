@@ -1,0 +1,56 @@
+*{
+    margin:0;
+    padding: 0;
+    box-sizing: border-box;
+}
+#d_profile{
+    border-radius: 9.125rem;
+}
+.search{
+    margin-left:5rem;
+    margin-top: 2rem;
+    display: flex;
+    
+}
+input{
+    text-align: center;
+    width: 70%;
+    height:3rem;
+    color: #909090e1;
+    border-radius: 1rem;
+    background: #FFF;
+    box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.075);
+    border: none;
+    font-size: 1.2rem;
+}
+.search_btn{
+    position: absolute;
+    width:1.5%;
+    height:2rem;
+    top:34%;
+    left:72%;
+    background: none;
+    box-shadow: none;
+    border: none;
+    background: none;
+}
+
+
+.search_btn img{
+    width:1rem;
+    height:1rem;
+    
+        width: 2rem; /* Adjust the width as needed */
+    
+}
+.search_btn:active{
+    background: #61171734;
+}
+
+.message-box {
+    background-color: #EFCA05;
+    color: #fff;
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
+    margin-bottom: 1rem;
+}

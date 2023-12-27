@@ -1,0 +1,81 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+    <link rel="stylesheet" href="{% static 'me/css/driver_dashboard.css' %}">
+    <link rel="stylesheet" href="{% static 'me/css/officer_dashboard.css' %}">
+    <title>Officer Dashboard</title>
+</head>
+<body>
+    <main>
+        <section class="container">
+                <div class="menu">
+                    <div class="header">
+                        <img class="logo" src="{% static 'me/images/Church Round Logo.png' %}" alt="logo">
+                        <p>Dashboard</p>
+                    </div>
+
+                    <!-- profile_card -->
+                    <div class="profile">
+                        <picture>
+                            <img id="d_profile" src="{% static 'me/images/police_profile.jpg' %}"  alt="">
+                        </picture>
+
+                        <p>
+                            <span id="title">{{user.rank}}</span>
+                            <span id="name">{{user.first_name}} {{ user.last_name}}</span>
+                        </p>
+                    </div>
+
+                     <!-- menu bar -->
+                    <div class="options">
+                            <a href="{% url 'edit-police'%}"><span ><img src="{% static 'me/images/manage.png' %}" alt="">Manage Profile</span></a>
+                            <a href="{% url 'police-logout'%}"><span ><img  src="{% static 'me/images/logout.jpeg' %}" alt="image">Logout</span></a>
+                            <a href="{% url 'password_change'%}"><span ><img  src="{% static 'me/images/Settings.png' %}" alt=""> Change Password</span></a>
+
+                    </div>
+                
+                    </div>
+                    <!-- track records -->
+                    <div class="record">
+                        <nav>
+                            <div class="greetings">
+                                <img  src="{% static 'me/images/Waving Hand Emoji.png' %}" alt="">
+                                <p id="name">Hello, {{user.first_name}}</p>
+                            </div>
+                            <div class="time">Time:
+                                <span id="time">{{time|time}}</span>
+                            </div>
+                        </nav>
+
+                            <!-- buttons -->
+                        <div class="button_box">
+                        <a href="{% url 'complain'%}" > <button class="complaint">Log Complaint</button></a>
+                            <button class="offense">View Offenses</button>
+                        </div>
+
+                            <!-- search bar -->
+                            {% for message in messages %}
+                            <h5 class='message'>{{ message }}</h5>
+                            {% endfor %}
+                        <div class="search">
+                            <form action="" method="POST">
+                                {% csrf_token %}
+                            <input type="text" name ="q" required placeholder="Search">
+                            <button type="submit" class="search_btn"><img src="{% static 'me/images/Search.png'%}" ></button>
+                            </form>
+                        </div>
+                                 
+
+                </div>
+
+
+            
+        </section>
+    </main>
+</body>
+</html>

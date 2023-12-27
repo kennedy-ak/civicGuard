@@ -1,0 +1,186 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'me/css/login.css' %}">
+
+    <title>Login</title>
+</head>
+<body>
+<section class="contain">
+    <div id="driver_form" class="l_container">
+        <div class="background1"></div>
+        <div class="form">
+            <div class="l_card">
+                <picture>
+                    <img class="driver" src="{% static 'me/images/driver3.jpg' %}">
+                   
+                    
+                </picture>
+                <div class="login">
+                    <!-- navbar -->
+                    <nav>
+                        <picture>
+                       
+                            <img class="driver" src="{% static 'me/images/Church Round Logo.png' %}">
+                        </picture>
+                        <h1>Login</h1>
+                    </nav>
+
+                    <!-- toggle buttons-->
+
+                    <div class="fill_in">
+                        <nav class="button_box">
+                            <button id="active" class="driver_fill" onclick="Driver()">Driver</button>
+                            <button   class="officer_fill" onclick="Officer()">Officer</button>
+                        </nav>
+
+                        <!-- form start -->
+
+                        <form id="login">
+                            <label>Number Plate ID </label><input type="tel" required >
+                            <label>Password </label><input type="text" required  >
+                            <a href=""><p class="forgot_p">Forgot Password?</p></a>
+
+                            <!-- login button -->
+
+                            <button class="submit_btn">Login</button>
+
+                            <div class="divider">
+                                <div></div>OR<div></div>
+                            </div>
+
+                             <!-- choose google -->
+
+                           <button class="google">
+                                <img src="./images/Google.png">
+                                Login with Google
+                            </button>
+
+                            <!-- choose account -->
+
+                            <p class="choose"> Don't have an account?
+                                <a href="./register.html"><span>Register</span></a>
+                            </p>
+                        </form>
+
+                        <!-- form end -->
+                    </div>
+                </div>
+            </div>   
+        </div>
+    </div>
+
+                           <!-- Officer form -->
+    <div id="officer_form" class="officer_container">
+        <div class="background1"></div>
+        <div class="form">
+            <div class="officer_card">
+                <picture>
+                    <img class="officer"  src="./images/police.jpg">
+                </picture>
+                <div class="officer_login">
+                        <!-- navbar -->
+
+                    <nav>
+                        <picture>
+                   
+                            <img class="driver" src="{% static 'me/images/Church Round Logo.png' %}">
+                        </picture>
+                        <h1>Login</h1>
+                    </nav>
+
+                        <!-- toggle buttons-->
+
+                    <div class="fill_in">
+                        <nav class="button_box">
+                            <button  class="driver_fill" onclick="Driver()">Driver</button>
+                            <button id="o_active" class="officer_fill" onclick="Officer()">Officer</button>
+                        </nav>
+
+                        <!-- form start -->
+
+                        <form >
+                            <label>Service ID </label><input type="tel" required>
+                            <label>Password </label><input type="text" required  >
+                            <a href=""><p class="forgot_p">Forgot Password?</p></a>
+
+                        <!-- login button -->
+
+                            <button class="submit_btn">Login</button>
+
+                            <div class="divider">
+                                <div></div>OR<div></div>
+                            </div>
+
+                         <!-- choose google -->
+
+                            <button class="google"></a>
+                                <img src=" {% static 'me/images/Google.png'%}">
+                                Login with Google
+                            </button>
+                                            
+                         <!-- choose account -->
+
+                            <p class="choose"> Don't have an account?
+                                <a href="./register.html"><span>Register</span></a>
+                            </p>
+                        </form>
+
+                        <form method="POST" action="">
+                            {% csrf_token %}
+                          <div class="mb-3" 
+                            <label for="exampleInputUsername" class="form-label">Police Service Id</label>
+                            <input type="text"  name="username"  class="form-control" id="exampleInputUsername" aria-describedby="usernameHelp" required>
+                            <div id="usernameHelp"  class="form-text">Enter your service ID.</div>
+                          </div>
+                          <div class="mb-3">
+                            <label for="exampleInputPassword" class="form-label">Password</label>
+                            <input type="password" name="password" class="form-control" id="exampleInputPassword" required>
+                          </div>
+                          <div class="register-link">
+                            <p>Not registered? <a href="{% url 'police-register' %}" class="">Create an account</a></p>
+                        </div>
+                          <button type="submit" class="btn btn-primary">Login</button>
+                        </form>
+                      </div>
+                      
+                      </form>
+                
+                    </div>
+                </div>
+            </div> 
+        </div>   
+    </div>  
+
+</section>
+
+<!-- activate toggle button -->
+<script>
+    var x = document.getElementById("driver_form");
+    var y = document.getElementById("officer_form");
+    var z = document.getElementById("active");
+    var w = document.getElementById("o_active");
+
+
+   function Driver(){
+    x.style.left = "0%";
+    y.style.left = "100%";
+    z.style.borderBottomColor = "#06631A";
+    z.style.borderBottomWidth = "5px";
+   }
+
+   function Officer(){
+    x.style.left = "100%";
+    y.style.left = "0%";
+    w.style.borderBottomColor="#06631A"
+    w.style.borderBottomWidth = "5px";
+   }
+
+</script>
+
+
+</body>
+</html>
