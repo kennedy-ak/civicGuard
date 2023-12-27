@@ -1,9 +1,10 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./css/driver_dashboard.css">
+    <link rel="stylesheet" href="{% static 'me/css/driver_dashboard.css' %}">
     <title>Driver Dashboard</title>
 </head>
 <body>
@@ -11,24 +12,26 @@
         <section class="container">
                 <div class="menu">
                     <div class="header">
-                        <img class="logo" src="./images/Church Round Logo.png" alt="logo">
+                          <img class="logo" src="{% static 'me/images/Church Round Logo.png' %}" alt="logo">
                         <p>Dashboard</p>
                     </div>
                     <div class="profile">
-                        <picture>
-                            <img id="d_profile" src="./images/driver_profile.png" alt="">
+                        <picture>                           
+                            <img id="d_profile" src="{% static 'me/images/driver_profile.png' %}"  alt="">
                         </picture>
 
                         <p>
-                            <span id="title">Driver</span>
-                            <span id="name">Samuel Opoku</span>
+                            <span id="title">Mr</span>
+                            <span id="name">{{user.first_name}} {{user.last_name}}</span>
                         </p>
                     </div>
                     
                     <div class="options">
-                            <a href="#"><span ><img src="./images/manage.png" alt="">Manage Profile</span></a>
-                            <a href="#"><span ><img src="./images/Location.png" alt="">Manage Location</span></a>
-                            <a href="#"><span ><img src="./images/Settings.png" alt="">Settings</span></a>
+                           
+                            <a href="{% url 'citizen-edit'%}"><span ><img src="{% static 'me/images/manage.png' %}" alt="">Manage Profile</span></a>
+                            
+                            <a href="{% url 'citizen-logout'%}"><span ><img  src="{% static 'me/images/logout.jpeg' %}" alt="image">Logout</span></a>
+                            <a href="{% url 'password_change'%}"><span ><img  src="{% static 'me/images/Settings.png' %}" alt=""> Change Password</span></a>
 
                     </div>
                 
@@ -38,10 +41,10 @@
                     <nav>
                         <div class="greetings">
                             <img src="./images/Waving Hand Emoji.png" alt="">
-                            <p id="name">Hello, Driver</p>
+                            <p id="name">Hello, {{ user.first_name }}</p>
                         </div>
                         <div class="time">Time:
-                            <span id="time">9:12:02</span>
+                            <span id="time">{{time|time}}</span>
                         </div>
                     </nav>
 

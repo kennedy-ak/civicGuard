@@ -381,11 +381,11 @@ def citizen_homepage(request):
     user_profile = get_object_or_404(CitizenProfile, user=request.user)
     if request.method == "POST":
         all_complains = Complains.pending(citizens=user_profile)
-        return render(request, 'me/index-citizen.html', {"user": user_profile, "all_complains": all_complains})
+        return render(request, 'me/driver_dashboard.html', {"user": user_profile, "all_complains": all_complains,'time':datetime.now()})
 
   
 
-    return render(request, 'me/index-citizen.html',{"user":user_profile})
+    return render(request, 'me/driver_dashboard.html',{"user":user_profile,'time':datetime.now()})
 
 @login_required(login_url='citizen-login')
 def edit_citizen_setting(request):
